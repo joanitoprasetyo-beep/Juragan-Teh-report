@@ -1,0 +1,2113 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Juragan Teh Nusantara - POS & Rekap 6 Outlet</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Plus Jakarta Sans -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Dynamic Favicon (Locked via JS on load) -->
+    <link id="app-favicon" rel="icon" type="image/svg+xml" href="">
+
+    <style>
+        :root {
+            --gold-primary: #d4af37;
+            --gold-light: #f3e5ab;
+            --emerald-deep: #03221a;
+            --emerald-dark: #06372a;
+        }
+
+        * {
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--emerald-deep);
+            color: #f8fafc;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* ==========================================================================
+           PATENTED 1-COLOR GOLD LOGO PATTERN BACKGROUND (LOCKED & FIXED)
+           ========================================================================== */
+        #patented-gold-bg {
+            position: fixed;
+            inset: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 0;
+            pointer-events: none;
+            background-color: #03221a;
+            background-image:
+                radial-gradient(circle at 18% 15%, rgba(212, 175, 55, 0.16) 0%, transparent 45%),
+                radial-gradient(circle at 85% 82%, rgba(16, 185, 129, 0.18) 0%, transparent 50%),
+                radial-gradient(circle at 50% 50%, rgba(4, 47, 36, 0.4) 0%, rgba(2, 24, 18, 0.92) 100%);
+        }
+
+        #patented-gold-pattern-layer {
+            position: fixed;
+            inset: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 0;
+            pointer-events: none;
+            background-repeat: repeat;
+            background-size: 165px 165px;
+            background-position: center center;
+            opacity: 0.16;
+        }
+
+        .gold-watermark-card {
+            position: relative;
+            overflow: hidden;
+        }
+        .gold-watermark-card::after {
+            content: "";
+            position: absolute;
+            right: -28px;
+            bottom: -28px;
+            width: 150px;
+            height: 150px;
+            background-image: var(--gold-logo-url);
+            background-size: contain;
+            background-repeat: no-repeat;
+            opacity: 0.08;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* ==========================================================================
+           LOCKED GLASSMORPHISM & GOLD BORDERS
+           ========================================================================== */
+        .glass-header {
+            background: rgba(3, 34, 26, 0.88);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(212, 175, 55, 0.38);
+        }
+
+        .glass-panel {
+            background: rgba(6, 52, 39, 0.78);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border: 1px solid rgba(212, 175, 55, 0.32);
+            box-shadow: 0 12px 32px -8px rgba(0, 0, 0, 0.5);
+        }
+
+        .glass-card {
+            background: rgba(4, 39, 29, 0.82);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(212, 175, 55, 0.26);
+            transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .glass-card:hover {
+            border-color: rgba(212, 175, 55, 0.75);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px -5px rgba(212, 175, 55, 0.18);
+        }
+
+        .glass-input {
+            background: rgba(2, 22, 17, 0.78);
+            border: 1px solid rgba(212, 175, 55, 0.42);
+            color: #ffffff;
+            transition: all 0.2s ease;
+        }
+
+        .glass-input:focus {
+            outline: none;
+            border-color: #facc15;
+            box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.25);
+            background: rgba(2, 22, 17, 0.95);
+        }
+
+        .btn-gold {
+            background: linear-gradient(135deg, #f3e5ab 0%, #d4af37 50%, #aa820a 100%);
+            color: #03221a;
+            font-weight: 800;
+            border: 1px solid rgba(255, 255, 255, 0.35);
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.35);
+            transition: all 0.2s ease;
+        }
+
+        .btn-gold:hover {
+            filter: brightness(1.07);
+            transform: translateY(-1px);
+            box-shadow: 0 6px 20px rgba(212, 175, 55, 0.5);
+        }
+
+        .btn-gold:active {
+            transform: translateY(0);
+        }
+
+        .btn-emerald {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: #ffffff;
+            font-weight: 700;
+            border: 1px solid rgba(167, 243, 208, 0.3);
+            box-shadow: 0 4px 14px rgba(16, 185, 129, 0.3);
+            transition: all 0.2s ease;
+        }
+
+        .btn-emerald:hover {
+            filter: brightness(1.08);
+            transform: translateY(-1px);
+        }
+
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: rgba(3, 34, 26, 0.6); }
+        ::-webkit-scrollbar-thumb { background: #d4af37; border-radius: 9999px; }
+
+        @keyframes spinSlow {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        .spin-refresh {
+            animation: spinSlow 0.65s ease-in-out;
+        }
+        .fade-in {
+            animation: fadeIn 0.22s ease-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        input[type="date"]::-webkit-calendar-picker-indicator,
+        input[type="month"]::-webkit-calendar-picker-indicator {
+            filter: invert(82%) sepia(47%) saturate(568%) hue-rotate(358deg) brightness(97%) contrast(92%);
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-amber-400 selection:text-emerald-950">
+
+    <!-- 1. PATENTED FIXED BACKGROUND & 1-COLOR GOLD LOGO PATTERN -->
+    <div id="patented-gold-bg"></div>
+    <div id="patented-gold-pattern-layer"></div>
+
+    <!-- 2. TOAST NOTIFICATION CONTAINER -->
+    <div id="toast-container" class="fixed top-4 right-4 z-[100] flex flex-col gap-2 max-w-sm w-full pointer-events-none px-4 sm:px-0"></div>
+
+    <!-- 3. UNIVERSAL MODAL OVERLAY -->
+    <div id="modal-overlay" class="fixed inset-0 bg-black/75 backdrop-blur-sm z-[90] hidden items-center justify-center p-4">
+        <div id="modal-box" class="glass-panel rounded-2xl max-w-lg w-full p-6 border-2 border-[#d4af37]/60 shadow-2xl fade-in max-h-[90vh] overflow-y-auto"></div>
+    </div>
+
+    <!-- 4. MAIN APPLICATION ROOT -->
+    <div id="app" class="relative z-10 min-h-screen flex flex-col"></div>
+
+    <!-- 5. APPLICATION LOGIC & FIREBASE CLOUD REAL-TIME SYNC -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, doc, setDoc, deleteDoc, onSnapshot, collection } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        // =========================================================================
+        // 1. PATENTED EMBEDDED SVG LOGOS (FULL COLOR & 1-COLOR GOLD MONOCHROME)
+        // =========================================================================
+        function createJuraganLogoSVG(isGoldMonochrome = false) {
+            const c = isGoldMonochrome ? {
+                bgCircle: 'none',
+                outerBorder: '#d4af37',
+                greenRing: '#d4af37',
+                textFill: '#d4af37',
+                batikFill: '#d4af37',
+                shirtFill: 'none',
+                shirtStroke: '#d4af37',
+                apronFill: '#d4af37',
+                skinFill: 'none',
+                skinStroke: '#d4af37',
+                hairFill: '#d4af37',
+                metalFill: 'none',
+                metalStroke: '#d4af37',
+                teaFill: '#d4af37',
+                centerBg: 'none'
+            } : {
+                bgCircle: '#ffffff',
+                outerBorder: '#0b5d38',
+                greenRing: '#0b5d38',
+                textFill: '#0b5d38',
+                batikFill: '#8c3b2b',
+                shirtFill: '#0b5d38',
+                shirtStroke: '#063b22',
+                apronFill: '#8c3b2b',
+                skinFill: '#f9e5d8',
+                skinStroke: '#262626',
+                hairFill: '#2b2b2b',
+                metalFill: '#e2e8f0',
+                metalStroke: '#262626',
+                teaFill: '#e59f52',
+                centerBg: '#ffffff'
+            };
+
+            const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" width="100%" height="100%">
+                <defs>
+                    <path id="textArcTop_${isGoldMonochrome ? 'g' : 'c'}" d="M 62,250 A 188,188 0 1,1 438,250" />
+                    <path id="textArcBottom_${isGoldMonochrome ? 'g' : 'c'}" d="M 442,250 A 192,192 0 1,1 58,250" />
+                    
+                    <pattern id="kawung_${isGoldMonochrome ? 'g' : 'c'}" x="0" y="0" width="46" height="46" patternUnits="userSpaceOnUse">
+                        <rect width="46" height="46" fill="${isGoldMonochrome ? 'none' : '#ffffff'}"/>
+                        <g fill="${c.batikFill}" opacity="${isGoldMonochrome ? '0.85' : '0.95'}">
+                            <path d="M 23,2 C 30,10 30,15 23,21 C 16,15 16,10 23,2 Z" />
+                            <path d="M 23,44 C 30,36 30,31 23,25 C 16,31 16,36 23,44 Z" />
+                            <path d="M 2,23 C 10,30 15,30 21,23 C 15,16 10,16 2,23 Z" />
+                            <path d="M 44,23 C 36,30 31,30 25,23 C 31,16 36,16 44,23 Z" />
+                            <circle cx="23" cy="23" r="2.3" fill="${isGoldMonochrome ? '#d4af37' : '#ffffff'}"/>
+                            <circle cx="0" cy="0" r="6" fill="none" stroke="${c.batikFill}" stroke-width="3"/>
+                            <circle cx="46" cy="0" r="6" fill="none" stroke="${c.batikFill}" stroke-width="3"/>
+                            <circle cx="0" cy="46" r="6" fill="none" stroke="${c.batikFill}" stroke-width="3"/>
+                            <circle cx="46" cy="46" r="6" fill="none" stroke="${c.batikFill}" stroke-width="3"/>
+                        </g>
+                    </pattern>
+
+                    <clipPath id="ringClip_${isGoldMonochrome ? 'g' : 'c'}">
+                        <circle cx="250" cy="250" r="172" />
+                    </clipPath>
+                </defs>
+
+                ${!isGoldMonochrome ? `<circle cx="250" cy="250" r="244" fill="${c.bgCircle}" stroke="#e2e8f0" stroke-width="3"/>` : `<circle cx="250" cy="250" r="242" fill="none" stroke="#d4af37" stroke-width="4" stroke-opacity="0.6"/>`}
+
+                <path d="M 55,155 A 216,216 0 0,0 55,345" fill="none" stroke="${c.greenRing}" stroke-width="9" stroke-linecap="round"/>
+                <path d="M 445,155 A 216,216 0 0,1 445,345" fill="none" stroke="${c.greenRing}" stroke-width="9" stroke-linecap="round"/>
+
+                <circle cx="250" cy="250" r="172" fill="url(#kawung_${isGoldMonochrome ? 'g' : 'c'})" clip-path="url(#ringClip_${isGoldMonochrome ? 'g' : 'c'})"/>
+                <circle cx="250" cy="250" r="172" fill="none" stroke="${c.greenRing}" stroke-width="5"/>
+
+                <circle cx="250" cy="250" r="126" fill="${c.centerBg}" stroke="${c.greenRing}" stroke-width="14"/>
+
+                <text fill="${c.textFill}" font-family="'Plus Jakarta Sans', 'Arial Black', sans-serif" font-size="52" font-weight="900" letter-spacing="4">
+                    <textPath href="#textArcTop_${isGoldMonochrome ? 'g' : 'c'}" startOffset="50%" text-anchor="middle">JURAGAN TEH</textPath>
+                </text>
+
+                <g transform="translate(382, 82) rotate(-18)">
+                    <path d="M 0,16 C 6,2 22,0 32,6 C 24,18 12,22 0,16 Z" fill="${c.greenRing}"/>
+                    <path d="M 3,15 Q 16,10 28,7" fill="none" stroke="${isGoldMonochrome ? '#03221a' : '#ffffff'}" stroke-width="1.8" stroke-linecap="round"/>
+                </g>
+
+                <text fill="${c.textFill}" font-family="'Plus Jakarta Sans', 'Arial Black', sans-serif" font-size="47" font-weight="900" letter-spacing="5">
+                    <textPath href="#textArcBottom_${isGoldMonochrome ? 'g' : 'c'}" startOffset="50%" text-anchor="middle">NUSANTARA</textPath>
+                </text>
+
+                <g id="tea-master">
+                    <path d="M 245,205 L 210,168 L 194,145 L 214,132 L 235,155 L 265,186 Z" fill="${c.shirtFill}" stroke="${c.shirtStroke}" stroke-width="3.5" stroke-linejoin="round"/>
+                    <path d="M 235,190 C 265,185 318,195 332,235 C 340,265 330,315 310,335 L 222,335 Z" fill="${c.shirtFill}" stroke="${c.shirtStroke}" stroke-width="3.5" stroke-linejoin="round"/>
+                    <path d="M 248,198 L 284,205 L 298,358 L 214,358 L 232,240 Z" fill="${c.apronFill}" stroke="${c.skinStroke}" stroke-width="2.5" stroke-linejoin="round"/>
+                    <path d="M 255,202 C 252,182 268,175 288,188 L 280,206" fill="none" stroke="${c.apronFill}" stroke-width="5" stroke-linecap="round"/>
+                    <path d="M 268,136 C 265,165 270,186 286,192 C 304,196 318,180 322,158 C 325,138 310,124 288,124 C 275,124 270,128 268,136 Z" fill="${c.skinFill}" stroke="${c.skinStroke}" stroke-width="3"/>
+                    <path d="M 320,152 C 327,152 328,165 319,168" fill="${c.skinFill}" stroke="${c.skinStroke}" stroke-width="2.5"/>
+                    <path d="M 268,142 C 266,122 282,112 305,115 C 324,118 332,132 326,152 C 322,144 316,142 312,146 C 308,135 284,132 268,142 Z" fill="${c.hairFill}"/>
+                    <path d="M 274,148 Q 281,144 287,148" fill="none" stroke="${c.skinStroke}" stroke-width="2.5" stroke-linecap="round"/>
+                    <path d="M 295,151 Q 302,147 308,151" fill="none" stroke="${c.skinStroke}" stroke-width="2.5" stroke-linecap="round"/>
+                    <path d="M 275,155 Q 281,159 286,155" fill="none" stroke="${c.skinStroke}" stroke-width="2.2" stroke-linecap="round"/>
+                    <path d="M 295,158 Q 301,162 306,158" fill="none" stroke="${c.skinStroke}" stroke-width="2.2" stroke-linecap="round"/>
+                    <path d="M 288,156 L 284,167 L 291,169" fill="none" stroke="${c.skinStroke}" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M 279,174 Q 289,184 301,175" fill="none" stroke="${c.skinStroke}" stroke-width="2.5" stroke-linecap="round"/>
+                    <circle cx="195" cy="120" r="10" fill="${c.skinFill}" stroke="${c.skinStroke}" stroke-width="2.5"/>
+
+                    <g transform="translate(182, 138) rotate(-28)">
+                        <rect x="-18" y="-22" width="38" height="46" rx="6" fill="${c.metalFill}" stroke="${c.metalStroke}" stroke-width="3"/>
+                        <ellipse cx="1" cy="-22" rx="19" ry="7" fill="${isGoldMonochrome ? 'none' : '#475569'}" stroke="${c.metalStroke}" stroke-width="3"/>
+                        <ellipse cx="1" cy="-21" rx="14" ry="4.5" fill="${c.teaFill}"/>
+                        <path d="M 20,-14 C 31,-14 31,14 20,14" fill="none" stroke="${c.metalStroke}" stroke-width="4" stroke-linecap="round"/>
+                    </g>
+
+                    <path d="M 188,136 C 194,185 190,235 192,285 C 193,308 191,324 192,338" fill="none" stroke="${c.teaFill}" stroke-width="6.5" stroke-linecap="round"/>
+                    <path d="M 192,155 C 196,200 189,255 193,315" fill="none" stroke="${isGoldMonochrome ? '#d4af37' : '#f6ad55'}" stroke-width="2.5" stroke-dasharray="10,6" stroke-linecap="round"/>
+
+                    <path d="M 305,275 L 252,328 L 228,332" fill="none" stroke="${c.skinFill}" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M 305,275 L 252,328 L 228,332" fill="none" stroke="${c.skinStroke}" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                    <circle cx="226" cy="332" r="11" fill="${c.skinFill}" stroke="${c.skinStroke}" stroke-width="2.8"/>
+
+                    <g transform="translate(192, 355)">
+                        <path d="M -24,-12 L -38,-22 L -32,8 L -22,12 Z" fill="${c.metalFill}" stroke="${c.metalStroke}" stroke-width="3" stroke-linejoin="round"/>
+                        <path d="M -24,-20 L 22,-20 L 26,30 C 26,35 -28,35 -28,30 Z" fill="${c.metalFill}" stroke="${c.metalStroke}" stroke-width="3" stroke-linejoin="round"/>
+                        <ellipse cx="-1" cy="-20" rx="23" ry="5" fill="${c.metalFill}" stroke="${c.metalStroke}" stroke-width="3"/>
+                        <path d="M 23,-14 C 38,-14 38,18 25,18" fill="none" stroke="${c.metalStroke}" stroke-width="4.5" stroke-linecap="round"/>
+                    </g>
+                </g>
+            </svg>`;
+
+            return `data:image/svg+xml;utf8,${encodeURIComponent(svg)}`;
+        }
+
+        const LOGO_COLOR_URI = createJuraganLogoSVG(false);
+        const LOGO_GOLD_URI = createJuraganLogoSVG(true);
+
+        document.getElementById('app-favicon').href = LOGO_COLOR_URI;
+        const patternLayer = document.getElementById('patented-gold-pattern-layer');
+        if (patternLayer) {
+            patternLayer.style.backgroundImage = `url("${LOGO_GOLD_URI}")`;
+        }
+        document.documentElement.style.setProperty('--gold-logo-url', `url("${LOGO_GOLD_URI}")`);
+
+        // =========================================================================
+        // 2. PATENTED CONSTANTS: 6 OFFICIAL OUTLETS, OWNER PIN & DEFAULT MENU
+        // =========================================================================
+        const OWNER_PIN = '281001';
+
+        const OUTLETS = [
+            { id: 'outlet_1', number: 1, label: '1. Juragan Ngaliyan', shortName: 'Juragan Ngaliyan', area: 'Kec. Ngaliyan, Semarang', icon: 'fa-store', pin: '1221' },
+            { id: 'outlet_2', number: 2, label: '2. Juragan Sampangan', shortName: 'Juragan Sampangan', area: 'Kec. Gajahmungkur, Semarang', icon: 'fa-shop', pin: '1331' },
+            { id: 'outlet_3', number: 3, label: '3. Juragan Banyumanik', shortName: 'Juragan Banyumanik', area: 'Kec. Banyumanik, Semarang', icon: 'fa-mug-hot', pin: '1441' },
+            { id: 'outlet_4', number: 4, label: '4. Juragan Mijen', shortName: 'Juragan Mijen', area: 'Kec. Mijen, Semarang', icon: 'fa-mug-saucer', pin: '1551' },
+            { id: 'outlet_5', number: 5, label: '5. Juragan Baru 1', shortName: 'Juragan Baru 1', area: 'Cabang Ekspansi Baru 1', icon: 'fa-building-flag', pin: '1661' },
+            { id: 'outlet_6', number: 6, label: '6. Juragan Baru 2', shortName: 'Juragan Baru 2', area: 'Cabang Ekspansi Baru 2', icon: 'fa-flag', pin: '1771' }
+        ];
+
+        const DEFAULT_PRODUCTS = [
+            { id: 'prod_1', name: 'Es Teh Nusantara Original', price: 3000, category: 'Original' },
+            { id: 'prod_2', name: 'Es Teh Jumbo Kampul', price: 4000, category: 'Original' },
+            { id: 'prod_3', name: 'Es Teh Tarik Nusantara', price: 6000, category: 'Creamy' },
+            { id: 'prod_4', name: 'Es Lemon Tea Segar', price: 5000, category: 'Fruity' },
+            { id: 'prod_5', name: 'Es Lychee Tea Premium', price: 6000, category: 'Fruity' },
+            { id: 'prod_6', name: 'Es Matcha Green Tea', price: 8000, category: 'Creamy' },
+            { id: 'prod_7', name: 'Es Thai Tea Juragan', price: 7000, category: 'Creamy' },
+            { id: 'prod_8', name: 'Teh Krampul Hangat', price: 3500, category: 'Hangat' }
+        ];
+
+        const STORAGE_KEYS = {
+            PRODUCTS: 'jt_nusantara_products_v3',
+            SALES: 'jt_nusantara_sales_v3',
+            RECAPS: 'jt_nusantara_recaps_v3',
+            SESSION: 'jt_nusantara_session_v3',
+            LAST_SAVED: 'jt_nusantara_last_saved_v3'
+        };
+
+        // =========================================================================
+        // 3. DATE & CURRENCY FORMATTERS
+        // =========================================================================
+        function getTodayStr() {
+            const now = new Date();
+            const offset = now.getTimezoneOffset() * 60000;
+            return new Date(now.getTime() - offset).toISOString().split('T')[0];
+        }
+
+        function getYesterdayStr() {
+            const now = new Date(Date.now() - 86400000);
+            const offset = now.getTimezoneOffset() * 60000;
+            return new Date(now.getTime() - offset).toISOString().split('T')[0];
+        }
+
+        function getCurrentMonthStr() {
+            return getTodayStr().slice(0, 7);
+        }
+
+        function formatRupiah(num) {
+            return 'Rp ' + Number(num || 0).toLocaleString('id-ID');
+        }
+
+        function formatFullDateID(dateStr) {
+            if (!dateStr) return '-';
+            const parts = dateStr.split('-');
+            if (parts.length !== 3) return dateStr;
+            const d = new Date(Number(parts[0]), Number(parts[1]) - 1, Number(parts[2]));
+            return d.toLocaleDateString('id-ID', {
+                weekday: 'long',
+                day: 'numeric',
+                month: 'long',
+                year: 'numeric'
+            });
+        }
+
+        function formatMonthID(monthStr) {
+            if (!monthStr) return '-';
+            const parts = monthStr.split('-');
+            if (parts.length !== 2) return monthStr;
+            const d = new Date(Number(parts[0]), Number(parts[1]) - 1, 1);
+            return d.toLocaleDateString('id-ID', { month: 'long', year: 'numeric' });
+        }
+
+        function escapeHTML(str) {
+            return String(str || '').replace(/[&<>"']/g, m => ({
+                '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+            }[m]));
+        }
+
+        // =========================================================================
+        // 4. STATE & PERSISTENT LOCAL STORAGE (SURVIVES REFRESH)
+        // =========================================================================
+        function loadSavedSession() {
+            try {
+                const raw = localStorage.getItem(STORAGE_KEYS.SESSION);
+                if (raw) {
+                    const parsed = JSON.parse(raw);
+                    return {
+                        role: parsed.role || null,
+                        activeOutletId: parsed.activeOutletId || 'outlet_1',
+                        showOutletSelector: parsed.role === 'worker' ? Boolean(parsed.showOutletSelector) : false,
+                        ownerTab: parsed.ownerTab || 'rekap_outlet',
+                        detailOutletId: parsed.detailOutletId || 'outlet_1',
+                        detailDate: parsed.detailDate || getTodayStr(),
+                        inputDate: parsed.inputDate || getTodayStr(),
+                        reportDate: parsed.reportDate || getTodayStr(),
+                        reportMonth: parsed.reportMonth || getCurrentMonthStr(),
+                        reportFilterMode: parsed.reportFilterMode || 'date'
+                    };
+                }
+            } catch (e) {
+                console.warn('Session restore fallback:', e);
+            }
+            return {
+                role: null,
+                activeOutletId: 'outlet_1',
+                showOutletSelector: false,
+                ownerTab: 'rekap_outlet',
+                detailOutletId: 'outlet_1',
+                detailDate: getTodayStr(),
+                inputDate: getTodayStr(),
+                reportDate: getTodayStr(),
+                reportMonth: getCurrentMonthStr(),
+                reportFilterMode: 'date'
+            };
+        }
+
+        function loadSavedProducts() {
+            try {
+                const raw = localStorage.getItem(STORAGE_KEYS.PRODUCTS);
+                if (raw) {
+                    const parsed = JSON.parse(raw);
+                    if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+                }
+            } catch (e) {
+                console.warn('Failed reading products:', e);
+            }
+            return [...DEFAULT_PRODUCTS];
+        }
+
+        function loadSavedSales() {
+            try {
+                const raw = localStorage.getItem(STORAGE_KEYS.SALES);
+                if (raw) {
+                    const parsed = JSON.parse(raw);
+                    if (Array.isArray(parsed)) {
+                        return parsed.map(item =>
+                            item.outletId === 'outlet_4'
+                                ? { ...item, outletLabel: '4. Juragan Mijen' }
+                                : item
+                        );
+                    }
+                }
+            } catch (e) {
+                console.warn('Failed reading sales:', e);
+            }
+            return [];
+        }
+
+        function loadSavedRecaps() {
+            try {
+                const raw = localStorage.getItem(STORAGE_KEYS.RECAPS);
+                if (raw) {
+                    const parsed = JSON.parse(raw);
+                    if (Array.isArray(parsed)) {
+                        return parsed.map(item =>
+                            item.outletId === 'outlet_4'
+                                ? { ...item, outletLabel: '4. Juragan Mijen' }
+                                : item
+                        );
+                    }
+                }
+            } catch (e) {
+                console.warn('Failed reading recaps:', e);
+            }
+            return [];
+        }
+
+        const savedSession = loadSavedSession();
+
+        let state = {
+            ...savedSession,
+            products: loadSavedProducts(),
+            sales: loadSavedSales(),
+            recaps: loadSavedRecaps(),
+            searchQuery: '',
+            historyOutletFilter: 'ALL',
+            cloudConnected: false,
+            cloudSyncing: false,
+            lastSavedTime: localStorage.getItem(STORAGE_KEYS.LAST_SAVED) || new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' })
+        };
+
+        function saveSessionState() {
+            try {
+                localStorage.setItem(STORAGE_KEYS.SESSION, JSON.stringify({
+                    role: state.role,
+                    activeOutletId: state.activeOutletId,
+                    showOutletSelector: state.showOutletSelector,
+                    ownerTab: state.ownerTab,
+                    detailOutletId: state.detailOutletId,
+                    detailDate: state.detailDate,
+                    inputDate: state.inputDate,
+                    reportDate: state.reportDate,
+                    reportMonth: state.reportMonth,
+                    reportFilterMode: state.reportFilterMode
+                }));
+            } catch (e) {
+                console.warn('Session save error:', e);
+            }
+        }
+
+        function saveLocalData() {
+            try {
+                const nowTime = new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+                state.lastSavedTime = nowTime;
+                localStorage.setItem(STORAGE_KEYS.PRODUCTS, JSON.stringify(state.products));
+                localStorage.setItem(STORAGE_KEYS.SALES, JSON.stringify(state.sales));
+                localStorage.setItem(STORAGE_KEYS.RECAPS, JSON.stringify(state.recaps));
+                localStorage.setItem(STORAGE_KEYS.LAST_SAVED, nowTime);
+                saveSessionState();
+            } catch (e) {
+                console.warn('Local save error:', e);
+            }
+        }
+
+        // =========================================================================
+        // 5. FIREBASE REAL-TIME CLOUD SYNC (AUTO-SYNC + OFFLINE FALLBACK)
+        // =========================================================================
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'juragan-teh-nusantara-pos';
+        let db = null;
+        let auth = null;
+        let currentUser = null;
+        let unsubProducts = null;
+        let unsubSales = null;
+        let unsubRecaps = null;
+
+        async function initFirebaseCloud() {
+            try {
+                if (typeof __firebase_config === 'undefined' || !__firebase_config) {
+                    state.cloudConnected = false;
+                    render();
+                    return;
+                }
+                const firebaseConfig = JSON.parse(__firebase_config);
+                const app = initializeApp(firebaseConfig);
+                auth = getAuth(app);
+                db = getFirestore(app);
+
+                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                    await signInWithCustomToken(auth, __initial_auth_token);
+                } else {
+                    await signInAnonymously(auth);
+                }
+
+                onAuthStateChanged(auth, (user) => {
+                    currentUser = user;
+                    if (user) {
+                        state.cloudConnected = true;
+                        startRealtimeListeners();
+                    } else {
+                        state.cloudConnected = false;
+                    }
+                    render();
+                });
+            } catch (err) {
+                console.warn('Cloud offline mode active:', err);
+                state.cloudConnected = false;
+                render();
+            }
+        }
+
+        function startRealtimeListeners() {
+            if (!db || !currentUser) return;
+
+            if (unsubProducts) unsubProducts();
+            if (unsubSales) unsubSales();
+            if (unsubRecaps) unsubRecaps();
+
+            const prodCol = collection(db, 'artifacts', appId, 'public', 'data', 'jt_products');
+            const salesCol = collection(db, 'artifacts', appId, 'public', 'data', 'jt_sales');
+            const recapsCol = collection(db, 'artifacts', appId, 'public', 'data', 'jt_recaps');
+
+            unsubProducts = onSnapshot(prodCol, async (snap) => {
+                if (snap.empty && state.products.length > 0) {
+                    for (const p of state.products) {
+                        await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'jt_products', p.id), p);
+                    }
+                    return;
+                }
+                if (!snap.empty) {
+                    const cloudProds = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+                    cloudProds.sort((a, b) => a.name.localeCompare(b.name));
+                    state.products = cloudProds;
+                    saveLocalData();
+                    render();
+                }
+            }, (err) => {
+                console.warn('Products snapshot warning:', err);
+            });
+
+            unsubSales = onSnapshot(salesCol, (snap) => {
+                const cloudSales = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+                const mergedMap = new Map();
+                state.sales.forEach(s => mergedMap.set(s.id, s));
+                cloudSales.forEach(s => mergedMap.set(s.id, s));
+                state.sales = Array.from(mergedMap.values()).sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+                saveLocalData();
+                render();
+            }, (err) => {
+                console.warn('Sales snapshot warning:', err);
+            });
+
+            unsubRecaps = onSnapshot(recapsCol, (snap) => {
+                const cloudRecaps = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+                const mergedMap = new Map();
+                state.recaps.forEach(r => mergedMap.set(r.id, r));
+                cloudRecaps.forEach(r => mergedMap.set(r.id, r));
+                state.recaps = Array.from(mergedMap.values()).sort((a, b) => (b.updatedAt || 0) - (a.updatedAt || 0));
+                saveLocalData();
+                render();
+            }, (err) => {
+                console.warn('Recaps snapshot warning:', err);
+            });
+        }
+
+        async function pushProductToCloud(productObj) {
+            if (!db || !currentUser) return;
+            try {
+                await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'jt_products', productObj.id), productObj);
+            } catch (e) {
+                console.warn('Cloud product push error:', e);
+            }
+        }
+
+        async function removeProductFromCloud(productId) {
+            if (!db || !currentUser) return;
+            try {
+                await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'jt_products', productId));
+            } catch (e) {
+                console.warn('Cloud product delete error:', e);
+            }
+        }
+
+        async function pushSaleToCloud(saleObj) {
+            if (!db || !currentUser) return;
+            try {
+                await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'jt_sales', saleObj.id), saleObj);
+            } catch (e) {
+                console.warn('Cloud sale push error:', e);
+            }
+        }
+
+        async function removeSaleFromCloud(saleId) {
+            if (!db || !currentUser) return;
+            try {
+                await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'jt_sales', saleId));
+            } catch (e) {
+                console.warn('Cloud sale delete error:', e);
+            }
+        }
+
+        async function pushRecapToCloud(recapObj) {
+            if (!db || !currentUser) return;
+            try {
+                await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'jt_recaps', recapObj.id), recapObj);
+            } catch (e) {
+                console.warn('Cloud recap push error:', e);
+            }
+        }
+
+        // =========================================================================
+        // 6. UI HELPERS: TOAST & MODAL
+        // =========================================================================
+        function showToast(message, type = 'success') {
+            const container = document.getElementById('toast-container');
+            if (!container) return;
+
+            const colors = {
+                success: 'bg-emerald-950/95 border-emerald-400 text-emerald-100',
+                error: 'bg-red-950/95 border-red-400 text-red-100',
+                info: 'bg-amber-950/95 border-[#d4af37] text-amber-100'
+            };
+            const icons = {
+                success: 'fa-circle-check text-emerald-400',
+                error: 'fa-circle-exclamation text-red-400',
+                info: 'fa-database text-[#d4af37]'
+            };
+
+            const toast = document.createElement('div');
+            toast.className = `pointer-events-auto flex items-center gap-3 px-4 py-3 rounded-xl border shadow-2xl backdrop-blur-md text-xs font-semibold fade-in ${colors[type] || colors.info}`;
+            toast.innerHTML = `
+                <i class="fas ${icons[type] || icons.info} text-base shrink-0"></i>
+                <span class="flex-1 leading-snug">${escapeHTML(message)}</span>
+            `;
+            container.appendChild(toast);
+
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transform = 'translateY(-6px)';
+                toast.style.transition = 'all 0.25s ease';
+                setTimeout(() => toast.remove(), 260);
+            }, 3400);
+        }
+
+        function openModal(innerHTML) {
+            const overlay = document.getElementById('modal-overlay');
+            const box = document.getElementById('modal-box');
+            if (!overlay || !box) return;
+            box.innerHTML = innerHTML;
+            overlay.classList.remove('hidden');
+            overlay.classList.add('flex');
+        }
+
+        window.closeModal = function() {
+            const overlay = document.getElementById('modal-overlay');
+            if (!overlay) return;
+            overlay.classList.add('hidden');
+            overlay.classList.remove('flex');
+        };
+
+        // =========================================================================
+        // 7. EXPLICIT REFRESH & SYNC ACTION
+        // =========================================================================
+        window.refreshAndLockApp = async function() {
+            const icon = document.getElementById('refresh-btn-icon');
+            if (icon) icon.classList.add('spin-refresh');
+
+            saveLocalData();
+
+            if (db && currentUser) {
+                startRealtimeListeners();
+                for (const p of state.products) {
+                    pushProductToCloud(p);
+                }
+                for (const s of state.sales) {
+                    pushSaleToCloud(s);
+                }
+                for (const r of state.recaps) {
+                    pushRecapToCloud(r);
+                }
+            }
+
+            setTimeout(() => {
+                render();
+                showToast('Database diperbarui! Semua data transaksi & rekap langsung tersinkronisasi.', 'success');
+            }, 350);
+        };
+
+        // =========================================================================
+        // 8. DIRECT IN-APP DAILY RECAP CONFIRMATION (NO LINKS, STRAIGHT TO DB)
+        // =========================================================================
+        window.openDailyRecapModal = function(outletId, dateStr) {
+            const outlet = OUTLETS.find(o => o.id === outletId) || OUTLETS[0];
+            const list = state.sales.filter(s => s.outletId === outletId && s.date === dateStr);
+            const calcUnits = list.reduce((acc, s) => acc + Number(s.qty), 0);
+            const calcRev = list.reduce((acc, s) => acc + Number(s.total), 0);
+
+            const recapId = `recap_${outletId}_${dateStr}`;
+            const existing = state.recaps.find(r => r.id === recapId);
+
+            const defaultUnits = existing ? existing.confirmedUnits : calcUnits;
+            const defaultRev = existing ? existing.confirmedRevenue : calcRev;
+            const defaultCash = existing ? existing.actualCash : calcRev;
+            const defaultNote = existing ? (existing.note || '') : '';
+
+            openModal(`
+                <div class="flex items-center justify-between border-b border-[#d4af37]/30 pb-3 mb-4">
+                    <div class="flex items-center gap-3">
+                        <img src="${LOGO_COLOR_URI}" class="w-10 h-10 rounded-full border border-[#d4af37] bg-white p-0.5" alt="Logo">
+                        <div>
+                            <h3 class="text-base font-extrabold text-[#f3e5ab]">Konfirmasi Rekap Harian ke Database</h3>
+                            <p class="text-xs text-emerald-200">${outlet.label} • ${formatFullDateID(dateStr)}</p>
+                        </div>
+                    </div>
+                    <button onclick="window.closeModal()" class="text-gray-300 hover:text-white p-1"><i class="fas fa-times text-lg"></i></button>
+                </div>
+
+                <div class="bg-emerald-950/90 border border-[#d4af37]/30 rounded-xl p-3 mb-4 flex items-center justify-between text-xs">
+                    <span class="text-gray-300">Hitungan Otomatis Kasir:</span>
+                    <span class="font-extrabold text-[#f3e5ab]">${calcUnits} Cup • ${formatRupiah(calcRev)}</span>
+                </div>
+
+                <form onsubmit="window.submitDailyRecapToDatabase(event, '${outletId}', '${dateStr}')" class="space-y-3.5 text-sm">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <div>
+                            <label class="block text-xs font-bold text-[#d4af37] mb-1">Total Unit Terjual (Cup)</label>
+                            <input id="recap-units-input" type="number" min="0" required value="${defaultUnits}"
+                                class="w-full glass-input rounded-xl px-3.5 py-2.5 text-base font-extrabold text-[#f3e5ab]">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-emerald-300 mb-1">Total Pendapatan (Rp)</label>
+                            <input id="recap-rev-input" type="number" min="0" required value="${defaultRev}"
+                                class="w-full glass-input rounded-xl px-3.5 py-2.5 text-base font-extrabold text-emerald-400">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-amber-200 mb-1">Uang Fisik / Kas Laci Disetor (Rp)</label>
+                        <input id="recap-cash-input" type="number" min="0" required value="${defaultCash}"
+                            class="w-full glass-input rounded-xl px-3.5 py-2.5 text-sm font-bold text-white">
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-gray-300 mb-1">Catatan Shift / Keterangan (Opsional)</label>
+                        <input id="recap-note-input" type="text" value="${escapeHTML(defaultNote)}" placeholder="Misal: Shift 1 & 2 lancar, stok es aman"
+                            class="w-full glass-input rounded-xl px-3.5 py-2.5 text-xs">
+                    </div>
+
+                    <div class="flex gap-2 pt-2">
+                        <button type="button" onclick="window.closeModal()" class="flex-1 py-3 rounded-xl bg-white/10 hover:bg-white/20 text-xs font-bold">Batal</button>
+                        <button type="submit" class="flex-1 py-3 rounded-xl btn-gold text-xs font-extrabold flex items-center justify-center gap-1.5 shadow-lg">
+                            <i class="fas fa-database"></i> Konfirmasi & Simpan ke Database
+                        </button>
+                    </div>
+                </form>
+            `);
+        };
+
+        window.submitDailyRecapToDatabase = function(e, outletId, dateStr) {
+            e.preventDefault();
+            const outlet = OUTLETS.find(o => o.id === outletId) || OUTLETS[0];
+            const confirmedUnits = parseInt(document.getElementById('recap-units-input')?.value || '0', 10);
+            const confirmedRevenue = parseInt(document.getElementById('recap-rev-input')?.value || '0', 10);
+            const actualCash = parseInt(document.getElementById('recap-cash-input')?.value || '0', 10);
+            const note = (document.getElementById('recap-note-input')?.value || '').trim();
+
+            const recapObj = {
+                id: `recap_${outletId}_${dateStr}`,
+                outletId,
+                outletLabel: outlet.label,
+                date: dateStr,
+                month: dateStr.slice(0, 7),
+                confirmedUnits: Math.max(0, confirmedUnits),
+                confirmedRevenue: Math.max(0, confirmedRevenue),
+                actualCash: Math.max(0, actualCash),
+                note,
+                confirmedBy: state.role || 'worker',
+                updatedAt: Date.now()
+            };
+
+            const idx = state.recaps.findIndex(r => r.id === recapObj.id);
+            if (idx >= 0) {
+                state.recaps[idx] = recapObj;
+            } else {
+                state.recaps.unshift(recapObj);
+            }
+
+            saveLocalData();
+            pushRecapToCloud(recapObj);
+            window.closeModal();
+            render();
+            showToast(`Rekap ${outlet.label} (${recapObj.confirmedUnits} Cup • ${formatRupiah(recapObj.confirmedRevenue)}) langsung diterima di database!`, 'success');
+        };
+
+        // =========================================================================
+        // 9. AUTHENTICATION & NAVIGATION HANDLERS (WORKER PER-OUTLET PIN & OWNER)
+        // =========================================================================
+        window.enterWorkerMode = function() {
+            state.role = 'worker';
+            state.showOutletSelector = true;
+            saveSessionState();
+            render();
+        };
+
+        window.promptOutletPin = function(outletId) {
+            const outlet = OUTLETS.find(o => o.id === outletId) || OUTLETS[0];
+            openModal(`
+                <div class="text-center">
+                    <div class="w-16 h-16 mx-auto rounded-full bg-emerald-900/80 border-2 border-[#d4af37] flex items-center justify-center mb-3 shadow-lg">
+                        <i class="fas ${outlet.icon} text-2xl text-[#d4af37]"></i>
+                    </div>
+                    <span class="inline-block px-3 py-0.5 rounded-full bg-[#d4af37]/20 border border-[#d4af37]/50 text-[#f3e5ab] text-[10px] font-extrabold uppercase tracking-widest mb-1">
+                        Password Akses Outlet #${outlet.number}
+                    </span>
+                    <h3 class="text-lg font-extrabold text-white">${outlet.label}</h3>
+                    <p class="text-xs text-emerald-200 mb-4">${outlet.area}</p>
+
+                    <form onsubmit="window.verifyOutletPin(event, '${outlet.id}')" class="space-y-3 text-left">
+                        <div>
+                            <label class="block text-xs font-bold text-[#d4af37] mb-1 text-center">Masukkan 4 Digit PIN Outlet</label>
+                            <input id="outlet-pin-input" type="password" inputmode="numeric" maxlength="6" required autofocus
+                                placeholder="••••"
+                                class="w-full glass-input rounded-xl px-4 py-3 text-center text-2xl font-extrabold tracking-[0.45em]">
+                        </div>
+                        <div class="flex gap-2 pt-1">
+                            <button type="button" onclick="window.closeModal()" class="flex-1 py-2.5 rounded-xl bg-white/10 hover:bg-white/20 text-xs font-bold">Batal</button>
+                            <button type="submit" class="flex-1 py-2.5 rounded-xl btn-emerald text-xs font-extrabold flex items-center justify-center gap-1.5 shadow-lg">
+                                <i class="fas fa-unlock-alt"></i> Buka Kasir Outlet
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            `);
+            setTimeout(() => document.getElementById('outlet-pin-input')?.focus(), 80);
+        };
+
+        window.verifyOutletPin = function(e, outletId) {
+            e.preventDefault();
+            const outlet = OUTLETS.find(o => o.id === outletId) || OUTLETS[0];
+            const entered = (document.getElementById('outlet-pin-input')?.value || '').trim();
+            if (entered === outlet.pin) {
+                state.role = 'worker';
+                state.activeOutletId = outlet.id;
+                state.showOutletSelector = false;
+                saveSessionState();
+                window.closeModal();
+                render();
+                showToast(`Berhasil masuk kasir ${outlet.label}!`, 'success');
+            } else {
+                showToast(`PIN salah untuk ${outlet.label}! Periksa kembali kode outlet.`, 'error');
+                const inp = document.getElementById('outlet-pin-input');
+                if (inp) {
+                    inp.value = '';
+                    inp.focus();
+                }
+            }
+        };
+
+        window.reopenOutletPicker = function() {
+            state.showOutletSelector = true;
+            saveSessionState();
+            render();
+        };
+
+        window.handleOwnerLogin = function(e) {
+            e.preventDefault();
+            const pinInput = document.getElementById('owner-pin-input');
+            const val = (pinInput?.value || '').trim();
+            if (val === OWNER_PIN) {
+                state.role = 'owner';
+                state.showOutletSelector = false;
+                state.ownerTab = 'rekap_outlet';
+                saveSessionState();
+                render();
+                showToast('Selamat datang, Owner Juragan Teh Nusantara!', 'success');
+            } else {
+                showToast('PIN Owner salah! Masukkan PIN 281001.', 'error');
+                if (pinInput) {
+                    pinInput.value = '';
+                    pinInput.focus();
+                }
+            }
+        };
+
+        window.logoutApp = function() {
+            state.role = null;
+            state.showOutletSelector = false;
+            saveSessionState();
+            render();
+            showToast('Keluar dari sesi aktif.', 'info');
+        };
+
+        window.setOwnerTab = function(tabName) {
+            state.ownerTab = tabName;
+            saveSessionState();
+            render();
+        };
+
+        window.setDetailOutlet = function(outletId) {
+            state.detailOutletId = outletId;
+            saveSessionState();
+            render();
+        };
+
+        window.setDetailDate = function(newDate) {
+            if (!newDate) return;
+            state.detailDate = newDate;
+            saveSessionState();
+            render();
+        };
+
+        window.jumpToOutletKasir = function(outletId) {
+            state.activeOutletId = outletId;
+            state.ownerTab = 'kasir';
+            saveSessionState();
+            render();
+        };
+
+        // =========================================================================
+        // 10. PRODUCT & TRANSACTION ACTIONS (DIRECT CONFIRM TO DATABASE)
+        // =========================================================================
+        window.handleSearchInput = function(val) {
+            state.searchQuery = val;
+            render();
+            const searchEl = document.getElementById('product-search-input');
+            if (searchEl) {
+                searchEl.focus();
+                searchEl.setSelectionRange(val.length, val.length);
+            }
+        };
+
+        window.handleInputDateChange = function(newDate) {
+            if (!newDate) return;
+            state.inputDate = newDate;
+            saveSessionState();
+            render();
+        };
+
+        window.changeActiveOutlet = function(outletId) {
+            state.activeOutletId = outletId;
+            saveSessionState();
+            render();
+        };
+
+        window.openAddProductModal = function() {
+            openModal(`
+                <div class="flex items-center justify-between border-b border-[#d4af37]/30 pb-3 mb-4">
+                    <div class="flex items-center gap-2.5">
+                        <img src="${LOGO_COLOR_URI}" class="w-8 h-8 rounded-full border border-[#d4af37] bg-white p-0.5" alt="Logo">
+                        <h3 class="text-base font-extrabold text-[#f3e5ab]">Tambah Produk Teh Baru</h3>
+                    </div>
+                    <button onclick="window.closeModal()" class="text-gray-300 hover:text-white p-1"><i class="fas fa-times"></i></button>
+                </div>
+                <form onsubmit="window.submitNewProduct(event)" class="space-y-4">
+                    <div>
+                        <label class="block text-xs font-bold text-[#d4af37] mb-1">Nama Produk Teh</label>
+                        <input id="new-prod-name" type="text" required placeholder="Contoh: Es Teh Susu Nusantara" class="w-full glass-input rounded-xl px-4 py-2.5 text-sm">
+                    </div>
+                    <div class="grid grid-cols-2 gap-3">
+                        <div>
+                            <label class="block text-xs font-bold text-[#d4af37] mb-1">Harga Jual (Rp)</label>
+                            <input id="new-prod-price" type="number" min="500" step="500" required placeholder="5000" class="w-full glass-input rounded-xl px-4 py-2.5 text-sm">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-[#d4af37] mb-1">Kategori</label>
+                            <select id="new-prod-cat" class="w-full glass-input rounded-xl px-3 py-2.5 text-sm">
+                                <option value="Original">Original</option>
+                                <option value="Creamy">Creamy / Susu</option>
+                                <option value="Fruity">Fruity / Buah</option>
+                                <option value="Hangat">Hangat</option>
+                                <option value="Topping">Topping / Ekstra</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="flex gap-2 pt-2">
+                        <button type="button" onclick="window.closeModal()" class="flex-1 py-2.5 rounded-xl bg-white/10 hover:bg-white/20 text-xs font-bold">Batal</button>
+                        <button type="submit" class="flex-1 py-2.5 rounded-xl btn-gold text-xs font-extrabold">Simpan ke Database</button>
+                    </div>
+                </form>
+            `);
+            setTimeout(() => document.getElementById('new-prod-name')?.focus(), 80);
+        };
+
+        window.submitNewProduct = function(e) {
+            e.preventDefault();
+            const name = (document.getElementById('new-prod-name')?.value || '').trim();
+            const price = parseInt(document.getElementById('new-prod-price')?.value || '0', 10);
+            const category = document.getElementById('new-prod-cat')?.value || 'Original';
+
+            if (!name || price <= 0) {
+                showToast('Masukkan nama produk dan harga yang valid.', 'error');
+                return;
+            }
+
+            const newProd = {
+                id: 'prod_' + Date.now(),
+                name,
+                price,
+                category
+            };
+
+            state.products.push(newProd);
+            saveLocalData();
+            pushProductToCloud(newProd);
+            window.closeModal();
+            render();
+            showToast(`Produk "${name}" (${formatRupiah(price)}) langsung tersimpan di database!`, 'success');
+        };
+
+        window.confirmDeleteProduct = function(prodId) {
+            const target = state.products.find(p => p.id === prodId);
+            if (!target) return;
+
+            openModal(`
+                <div class="text-center">
+                    <div class="w-14 h-14 rounded-full bg-red-500/20 border border-red-400/50 text-red-300 flex items-center justify-center mx-auto mb-3 text-2xl">
+                        <i class="fas fa-trash-can"></i>
+                    </div>
+                    <h3 class="text-base font-extrabold text-white mb-1">Hapus Produk dari Database?</h3>
+                    <p class="text-xs text-gray-300 mb-5">Produk <strong class="text-[#f3e5ab]">${escapeHTML(target.name)}</strong> akan dihapus dari daftar menu.</p>
+                    <div class="flex gap-2">
+                        <button onclick="window.closeModal()" class="flex-1 py-2.5 rounded-xl bg-white/10 hover:bg-white/20 text-xs font-bold">Batal</button>
+                        <button onclick="window.executeDeleteProduct('${prodId}')" class="flex-1 py-2.5 rounded-xl bg-red-600 hover:bg-red-500 text-white text-xs font-extrabold">Ya, Hapus</button>
+                    </div>
+                </div>
+            `);
+        };
+
+        window.executeDeleteProduct = function(prodId) {
+            const target = state.products.find(p => p.id === prodId);
+            state.products = state.products.filter(p => p.id !== prodId);
+            saveLocalData();
+            removeProductFromCloud(prodId);
+            window.closeModal();
+            render();
+            showToast(`Produk "${target?.name || ''}" dihapus dari database.`, 'info');
+        };
+
+        window.quickAddSale = function(prodId, qty = 1) {
+            recordSaleTransaction(prodId, qty);
+        };
+
+        window.openCustomQtyModal = function(prodId) {
+            const prod = state.products.find(p => p.id === prodId);
+            const outlet = OUTLETS.find(o => o.id === state.activeOutletId) || OUTLETS[0];
+            if (!prod) return;
+
+            openModal(`
+                <div>
+                    <div class="flex items-center justify-between border-b border-[#d4af37]/30 pb-3 mb-4">
+                        <div>
+                            <span class="text-[11px] font-bold uppercase tracking-wider text-[#d4af37]">${outlet.label}</span>
+                            <h3 class="text-base font-extrabold text-white">${escapeHTML(prod.name)}</h3>
+                            <p class="text-xs text-emerald-300 font-semibold">${formatRupiah(prod.price)} / cup • ${formatFullDateID(state.inputDate)}</p>
+                        </div>
+                        <button onclick="window.closeModal()" class="text-gray-300 hover:text-white p-1"><i class="fas fa-times"></i></button>
+                    </div>
+
+                    <form onsubmit="window.submitCustomQtySale(event, '${prod.id}')" class="space-y-4">
+                        <div>
+                            <label class="block text-xs font-bold text-[#f3e5ab] mb-1.5">Jumlah Unit Terjual (Cup)</label>
+                            <div class="flex items-center gap-2">
+                                <button type="button" onclick="window.adjustModalQty(-1)" class="w-11 h-11 rounded-xl bg-white/10 hover:bg-white/20 font-extrabold text-lg">-</button>
+                                <input id="custom-qty-input" type="number" min="1" max="9999" value="1" required
+                                    oninput="window.updateModalSubtotal(${prod.price})"
+                                    class="flex-1 glass-input rounded-xl py-2.5 text-center text-xl font-extrabold text-[#f3e5ab]">
+                                <button type="button" onclick="window.adjustModalQty(1)" class="w-11 h-11 rounded-xl bg-white/10 hover:bg-white/20 font-extrabold text-lg">+</button>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-5 gap-1.5">
+                            ${[1, 2, 5, 10, 20].map(n => `
+                                <button type="button" onclick="window.setModalQty(${n}, ${prod.price})" class="py-2 rounded-lg bg-[#d4af37]/15 hover:bg-[#d4af37]/30 border border-[#d4af37]/40 text-xs font-extrabold text-[#f3e5ab]">
+                                    +${n}
+                                </button>
+                            `).join('')}
+                        </div>
+
+                        <div class="bg-emerald-950/90 border border-[#d4af37]/35 rounded-xl p-3 flex items-center justify-between">
+                            <span class="text-xs text-gray-300">Subtotal Otomatis:</span>
+                            <span id="modal-subtotal-display" class="text-base font-extrabold text-[#f3e5ab]">${formatRupiah(prod.price)}</span>
+                        </div>
+
+                        <div class="flex gap-2 pt-1">
+                            <button type="button" onclick="window.closeModal()" class="flex-1 py-3 rounded-xl bg-white/10 hover:bg-white/20 text-sm font-bold">Batal</button>
+                            <button type="submit" class="flex-1 py-3 rounded-xl btn-emerald text-sm font-extrabold flex items-center justify-center gap-2 shadow-lg">
+                                <i class="fas fa-check-circle"></i> Konfirmasi & Masuk Database
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            `);
+            setTimeout(() => document.getElementById('custom-qty-input')?.select(), 80);
+        };
+
+        window.adjustModalQty = function(delta) {
+            const inp = document.getElementById('custom-qty-input');
+            if (!inp) return;
+            const next = Math.max(1, (parseInt(inp.value, 10) || 1) + delta);
+            inp.value = next;
+            inp.dispatchEvent(new Event('input'));
+        };
+
+        window.setModalQty = function(val, price) {
+            const inp = document.getElementById('custom-qty-input');
+            if (!inp) return;
+            inp.value = val;
+            window.updateModalSubtotal(price);
+        };
+
+        window.updateModalSubtotal = function(price) {
+            const inp = document.getElementById('custom-qty-input');
+            const disp = document.getElementById('modal-subtotal-display');
+            if (!inp || !disp) return;
+            const qty = Math.max(1, parseInt(inp.value, 10) || 1);
+            disp.textContent = formatRupiah(qty * price);
+        };
+
+        window.submitCustomQtySale = function(e, prodId) {
+            e.preventDefault();
+            const qty = Math.max(1, parseInt(document.getElementById('custom-qty-input')?.value || '1', 10));
+            window.closeModal();
+            recordSaleTransaction(prodId, qty);
+        };
+
+        function recordSaleTransaction(prodId, qty) {
+            const prod = state.products.find(p => p.id === prodId);
+            const outlet = OUTLETS.find(o => o.id === state.activeOutletId) || OUTLETS[0];
+            if (!prod) return;
+
+            const dateStr = state.inputDate || getTodayStr();
+            const now = new Date();
+            const timeStr = now.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
+
+            const saleItem = {
+                id: 'sale_' + Date.now() + '_' + Math.random().toString(36).slice(2, 6),
+                outletId: outlet.id,
+                outletLabel: outlet.label,
+                productId: prod.id,
+                productName: prod.name,
+                price: Number(prod.price),
+                qty: Number(qty),
+                total: Number(prod.price) * Number(qty),
+                date: dateStr,
+                month: dateStr.slice(0, 7),
+                time: timeStr,
+                inputBy: state.role || 'worker',
+                createdAt: Date.now()
+            };
+
+            state.sales.unshift(saleItem);
+            saveLocalData();
+            pushSaleToCloud(saleItem);
+
+            showToast(`+${qty} Cup ${prod.name} (${formatRupiah(saleItem.total)}) langsung masuk database ${outlet.label}!`, 'success');
+            render();
+        }
+
+        window.deleteSaleTransaction = function(saleId) {
+            const target = state.sales.find(s => s.id === saleId);
+            if (!target) return;
+            state.sales = state.sales.filter(s => s.id !== saleId);
+            saveLocalData();
+            removeSaleFromCloud(saleId);
+            showToast(`Data transaksi ${target.productName} (${target.qty} cup) dihapus dari database.`, 'info');
+            render();
+        };
+
+        window.setReportFilterMode = function(mode) {
+            state.reportFilterMode = mode;
+            saveSessionState();
+            render();
+        };
+
+        window.setReportDate = function(val) {
+            if (!val) return;
+            state.reportDate = val;
+            saveSessionState();
+            render();
+        };
+
+        window.setReportMonth = function(val) {
+            if (!val) return;
+            state.reportMonth = val;
+            saveSessionState();
+            render();
+        };
+
+        window.setHistoryOutletFilter = function(val) {
+            state.historyOutletFilter = val;
+            render();
+        };
+
+        // =========================================================================
+        // 11. SCREEN RENDERERS
+        // =========================================================================
+        function renderLoginScreen() {
+            return `
+                <div class="flex-1 flex items-center justify-center p-4 sm:p-6">
+                    <div class="glass-panel gold-watermark-card rounded-3xl max-w-md w-full p-6 sm:p-8 border-2 border-[#d4af37]/50 shadow-2xl fade-in">
+                        <div class="text-center mb-6 relative z-10">
+                            <div class="w-28 h-28 mx-auto mb-3 rounded-full p-1 bg-gradient-to-tr from-[#aa820a] via-[#f3e5ab] to-[#d4af37] shadow-xl">
+                                <img src="${LOGO_COLOR_URI}" alt="Logo Juragan Teh Nusantara" class="w-full h-full rounded-full object-contain bg-white">
+                            </div>
+                            <h1 class="text-2xl sm:text-3xl font-extrabold tracking-tight text-[#f3e5ab]">JURAGAN TEH</h1>
+                            <p class="text-xs font-bold uppercase tracking-[0.25em] text-[#d4af37] mt-0.5">NUSANTARA • POS 6 OUTLET</p>
+                            <div class="mt-2 inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-950/90 border border-[#d4af37]/35 text-[11px] font-semibold text-emerald-200">
+                                <span class="w-2 h-2 rounded-full ${state.cloudConnected ? 'bg-emerald-400 animate-pulse' : 'bg-amber-400'}"></span>
+                                ${state.cloudConnected ? 'Cloud Real-Time Online' : 'Database Lokal & Auto-Sync'}
+                            </div>
+                        </div>
+
+                        <!-- WORKER ENTRY -->
+                        <div class="mb-5 relative z-10">
+                            <button onclick="window.enterWorkerMode()" class="w-full btn-emerald py-3.5 px-4 rounded-2xl flex items-center justify-between shadow-lg group">
+                                <div class="flex items-center gap-3 text-left">
+                                    <div class="w-10 h-10 rounded-xl bg-white/15 flex items-center justify-center text-lg">
+                                        <i class="fas fa-user-tie"></i>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-extrabold">Masuk sebagai Kasir (Worker)</div>
+                                        <div class="text-[11px] text-emerald-100/90">Pilih 1 dari 6 Outlet • PIN Outlet • Input & Rekap</div>
+                                    </div>
+                                </div>
+                                <i class="fas fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
+                            </button>
+                        </div>
+
+                        <!-- OWNER ENTRY WITH PIN -->
+                        <div class="pt-5 border-t border-[#d4af37]/30 relative z-10">
+                            <form onsubmit="window.handleOwnerLogin(event)" class="space-y-3">
+                                <div class="flex items-center justify-between">
+                                    <label class="text-xs font-extrabold uppercase tracking-wider text-[#f3e5ab]">
+                                        <i class="fas fa-crown text-[#d4af37] mr-1"></i> Akses Owner Pusat
+                                    </label>
+                                    <span class="text-[11px] text-emerald-200/80">Kontrol Penuh 6 Outlet</span>
+                                </div>
+                                <div class="flex gap-2">
+                                    <input id="owner-pin-input" type="password" inputmode="numeric" maxlength="10" required
+                                        placeholder="Masukkan PIN Owner"
+                                        class="flex-1 glass-input rounded-xl px-4 py-3 text-center text-base font-extrabold tracking-[0.35em] placeholder:tracking-normal placeholder:font-medium placeholder:text-sm">
+                                    <button type="submit" class="btn-gold px-5 py-3 rounded-xl text-sm font-extrabold flex items-center gap-1.5 shrink-0">
+                                        <i class="fas fa-key"></i> Masuk
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+
+                        <div class="mt-6 pt-5 border-t border-[#d4af37]/25 flex items-center justify-center relative z-10">
+                            <button onclick="window.refreshAndLockApp()" class="w-full py-2.5 px-4 rounded-xl bg-emerald-950/90 hover:bg-emerald-900 border border-[#d4af37]/40 text-xs font-bold text-emerald-200 flex items-center justify-center gap-2">
+                                <i class="fas fa-database text-[#d4af37]"></i> Sinkronkan & Refresh Database
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderWorkerOutletSelector() {
+            const todayStr = getTodayStr();
+            const cards = OUTLETS.map(o => {
+                const todaySales = state.sales.filter(s => s.outletId === o.id && s.date === todayStr);
+                const todayUnits = todaySales.reduce((acc, s) => acc + Number(s.qty), 0);
+                const todayRev = todaySales.reduce((acc, s) => acc + Number(s.total), 0);
+
+                return `
+                    <button onclick="window.promptOutletPin('${o.id}')" class="glass-card gold-watermark-card rounded-2xl p-5 text-left flex flex-col justify-between group border-2 border-[#d4af37]/35 hover:border-[#f3e5ab]">
+                        <div class="flex items-start justify-between gap-3 mb-3 relative z-10">
+                            <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#d4af37]/25 to-emerald-900/80 border border-[#d4af37]/50 flex items-center justify-center text-[#f3e5ab] text-xl shrink-0">
+                                <i class="fas ${o.icon}"></i>
+                            </div>
+                            <span class="px-2.5 py-1 rounded-full bg-[#d4af37]/20 border border-[#d4af37]/40 text-[11px] font-extrabold text-[#f3e5ab] flex items-center gap-1">
+                                <i class="fas fa-lock text-[9px]"></i> Outlet #${o.number}
+                            </span>
+                        </div>
+                        <div class="relative z-10 mb-3">
+                            <h3 class="text-base sm:text-lg font-extrabold text-white group-hover:text-[#f3e5ab] transition-colors">${o.label}</h3>
+                            <p class="text-xs text-emerald-200/80 mt-0.5"><i class="fas fa-location-dot text-[#d4af37] mr-1"></i> ${o.area}</p>
+                        </div>
+                        <div class="pt-3 border-t border-[#d4af37]/25 flex items-center justify-between text-xs relative z-10">
+                            <span class="text-gray-300">Hari Ini: <strong class="text-white">${todayUnits} Cup</strong></span>
+                            <span class="font-extrabold text-[#f3e5ab]">${formatRupiah(todayRev)} <i class="fas fa-chevron-right ml-1"></i></span>
+                        </div>
+                    </button>
+                `;
+            }).join('');
+
+            return `
+                <div class="flex-1 flex flex-col justify-center max-w-5xl mx-auto w-full p-4 sm:p-6 fade-in">
+                    <div class="glass-panel rounded-3xl p-6 sm:p-8 border-2 border-[#d4af37]/45">
+                        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-[#d4af37]/30 pb-5 mb-6">
+                            <div class="flex items-center gap-3.5">
+                                <img src="${LOGO_COLOR_URI}" alt="Logo" class="w-14 h-14 rounded-full bg-white p-0.5 border-2 border-[#d4af37] shadow-md">
+                                <div>
+                                    <span class="text-[11px] font-extrabold uppercase tracking-widest text-[#d4af37]">Akses Awal Kasir (Worker)</span>
+                                    <h2 class="text-xl sm:text-2xl font-extrabold text-white">Pilih Tempat / Outlet Penjualan</h2>
+                                    <p class="text-xs text-emerald-200">Pilih outlet & masukkan 4 digit PIN toko untuk mencatat penjualan.</p>
+                                </div>
+                            </div>
+                            <button onclick="window.logoutApp()" class="px-4 py-2.5 rounded-xl bg-white/10 hover:bg-white/20 text-xs font-bold text-gray-200 flex items-center gap-2 self-start sm:self-center">
+                                <i class="fas fa-arrow-left"></i> Kembali
+                            </button>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                            ${cards}
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderNavbar() {
+            const activeOutlet = OUTLETS.find(o => o.id === state.activeOutletId) || OUTLETS[0];
+            return `
+                <header class="glass-header sticky top-0 z-40">
+                    <div class="max-w-7xl mx-auto px-4 py-3 flex flex-wrap items-center justify-between gap-3">
+                        <div class="flex items-center gap-3">
+                            <img src="${LOGO_COLOR_URI}" alt="Juragan Teh Nusantara" class="w-11 h-11 rounded-full bg-white p-0.5 border-2 border-[#d4af37] shadow-md">
+                            <div>
+                                <div class="flex items-center gap-2">
+                                    <span class="font-extrabold text-base sm:text-lg tracking-tight text-[#f3e5ab]">JURAGAN TEH</span>
+                                    <span class="px-2 py-0.5 rounded-full text-[10px] font-extrabold uppercase ${state.role === 'owner' ? 'bg-[#d4af37] text-emerald-950' : 'bg-emerald-500 text-white'}">
+                                        ${state.role === 'owner' ? 'OWNER PUSAT' : 'WORKER KASIR'}
+                                    </span>
+                                </div>
+                                <div class="flex items-center gap-2 text-[11px] text-emerald-200">
+                                    <span>${state.role === 'owner' ? 'Kontrol Penuh 6 Outlet' : activeOutlet.label}</span>
+                                    <span>•</span>
+                                    <span class="inline-flex items-center gap-1">
+                                        <span class="w-1.5 h-1.5 rounded-full ${state.cloudConnected ? 'bg-emerald-400' : 'bg-amber-400'}"></span>
+                                        ${state.cloudConnected ? 'Cloud Live' : 'DB Aktif'} (${state.lastSavedTime})
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center gap-2">
+                            <button onclick="window.refreshAndLockApp()" class="px-3 py-2 rounded-xl bg-emerald-900/90 hover:bg-emerald-800 border border-[#d4af37]/50 text-xs font-extrabold text-[#f3e5ab] flex items-center gap-1.5 shadow-sm" title="Sinkronkan & Refresh Database">
+                                <i id="refresh-btn-icon" class="fas fa-arrows-rotate text-[#d4af37]"></i>
+                                <span>Sync DB</span>
+                            </button>
+
+                            ${state.role === 'worker' ? `
+                                <button onclick="window.reopenOutletPicker()" class="px-3 py-2 rounded-xl bg-white/10 hover:bg-white/20 border border-white/20 text-xs font-bold text-white flex items-center gap-1.5">
+                                    <i class="fas fa-repeat text-[#d4af37]"></i>
+                                    <span class="hidden sm:inline">Ganti Outlet</span>
+                                </button>
+                            ` : ''}
+
+                            <button onclick="window.logoutApp()" class="px-3 py-2 rounded-xl bg-red-500/20 hover:bg-red-500/35 border border-red-400/40 text-xs font-bold text-red-200 flex items-center gap-1.5">
+                                <i class="fas fa-right-from-bracket"></i>
+                                <span class="hidden sm:inline">Keluar</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    ${state.role === 'owner' ? `
+                        <div class="border-t border-[#d4af37]/20 bg-emerald-950/60">
+                            <div class="max-w-7xl mx-auto px-4 py-2 flex items-center gap-2 overflow-x-auto">
+                                <button onclick="window.setOwnerTab('rekap_outlet')" class="px-4 py-2 rounded-xl text-xs font-extrabold whitespace-nowrap transition-all flex items-center gap-2 ${state.ownerTab === 'rekap_outlet' ? 'btn-gold' : 'bg-white/5 hover:bg-white/15 text-gray-200'}">
+                                    <i class="fas fa-chart-pie"></i> Ringkasan 6 Outlet
+                                </button>
+                                <button onclick="window.setOwnerTab('rekap_detail')" class="px-4 py-2 rounded-xl text-xs font-extrabold whitespace-nowrap transition-all flex items-center gap-2 ${state.ownerTab === 'rekap_detail' ? 'btn-gold' : 'bg-white/5 hover:bg-white/15 text-gray-200'}">
+                                    <i class="fas fa-store-alt"></i> Rekap Per-Outlet & Tanggal
+                                </button>
+                                <button onclick="window.setOwnerTab('kasir')" class="px-4 py-2 rounded-xl text-xs font-extrabold whitespace-nowrap transition-all flex items-center gap-2 ${state.ownerTab === 'kasir' ? 'btn-gold' : 'bg-white/5 hover:bg-white/15 text-gray-200'}">
+                                    <i class="fas fa-cash-register"></i> Input Kasir & Kelola Produk
+                                </button>
+                                <button onclick="window.setOwnerTab('riwayat')" class="px-4 py-2 rounded-xl text-xs font-extrabold whitespace-nowrap transition-all flex items-center gap-2 ${state.ownerTab === 'riwayat' ? 'btn-gold' : 'bg-white/5 hover:bg-white/15 text-gray-200'}">
+                                    <i class="fas fa-clock-rotate-left"></i> Riwayat Transaksi (${state.sales.length})
+                                </button>
+                            </div>
+                        </div>
+                    ` : ''}
+                </header>
+            `;
+        }
+
+        function renderKasirAndProductsView() {
+            const activeOutlet = OUTLETS.find(o => o.id === state.activeOutletId) || OUTLETS[0];
+            const q = state.searchQuery.trim().toLowerCase();
+            const filteredProducts = state.products.filter(p =>
+                p.name.toLowerCase().includes(q) || (p.category || '').toLowerCase().includes(q)
+            );
+
+            const outletDateSales = state.sales.filter(s => s.outletId === state.activeOutletId && s.date === state.inputDate);
+            const totalUnits = outletDateSales.reduce((sum, s) => sum + Number(s.qty), 0);
+            const totalRevenue = outletDateSales.reduce((sum, s) => sum + Number(s.total), 0);
+            const confirmedRecap = state.recaps.find(r => r.id === `recap_${state.activeOutletId}_${state.inputDate}`);
+
+            const productBreakdownMap = {};
+            outletDateSales.forEach(s => {
+                if (!productBreakdownMap[s.productName]) {
+                    productBreakdownMap[s.productName] = { name: s.productName, qty: 0, total: 0 };
+                }
+                productBreakdownMap[s.productName].qty += Number(s.qty);
+                productBreakdownMap[s.productName].total += Number(s.total);
+            });
+            const productBreakdownList = Object.values(productBreakdownMap).sort((a, b) => b.qty - a.qty);
+
+            const productCards = filteredProducts.length > 0 ? filteredProducts.map(prod => {
+                const soldToday = outletDateSales
+                    .filter(s => s.productId === prod.id || s.productName === prod.name)
+                    .reduce((acc, s) => acc + Number(s.qty), 0);
+
+                return `
+                    <div class="glass-card rounded-2xl p-4 flex flex-col justify-between relative group">
+                        <div class="flex items-start justify-between gap-2 mb-2">
+                            <span class="px-2 py-0.5 rounded-md bg-[#d4af37]/15 border border-[#d4af37]/30 text-[10px] font-bold text-[#f3e5ab]">
+                                ${escapeHTML(prod.category || 'Teh')}
+                            </span>
+                            <div class="flex items-center gap-1.5">
+                                ${soldToday > 0 ? `<span class="px-2 py-0.5 rounded-full bg-emerald-500/25 border border-emerald-400/40 text-[10px] font-extrabold text-emerald-300">${soldToday} cup</span>` : ''}
+                                <button onclick="window.confirmDeleteProduct('${prod.id}')" class="w-7 h-7 rounded-lg bg-red-500/15 hover:bg-red-500/35 text-red-300 flex items-center justify-center text-xs" title="Hapus Produk">
+                                    <i class="fas fa-trash-can"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="my-1">
+                            <h4 class="font-extrabold text-sm sm:text-base text-white leading-snug">${escapeHTML(prod.name)}</h4>
+                            <p class="text-sm font-extrabold text-[#f3e5ab] mt-1">${formatRupiah(prod.price)}</p>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-2 mt-3 pt-3 border-t border-[#d4af37]/20">
+                            <button onclick="window.quickAddSale('${prod.id}', 1)" class="btn-emerald py-2 px-2 rounded-xl text-xs font-extrabold flex items-center justify-center gap-1">
+                                <i class="fas fa-plus"></i> 1 Cup
+                            </button>
+                            <button onclick="window.openCustomQtyModal('${prod.id}')" class="btn-gold py-2 px-2 rounded-xl text-xs font-extrabold flex items-center justify-center gap-1">
+                                <i class="fas fa-calculator"></i> Jumlah
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }).join('') : `
+                <div class="col-span-full glass-panel rounded-2xl p-8 text-center">
+                    <i class="fas fa-mug-hot text-3xl text-[#d4af37]/60 mb-2"></i>
+                    <p class="text-sm font-bold text-gray-200">Produk tidak ditemukan.</p>
+                    <p class="text-xs text-gray-400 mt-1">Gunakan kata kunci lain atau klik tombol "Tambah Produk" di atas.</p>
+                </div>
+            `;
+
+            const recentLogs = outletDateSales.slice(0, 12).map(s => `
+                <div class="flex items-center justify-between gap-2 bg-emerald-950/75 border border-[#d4af37]/20 rounded-xl px-3 py-2 text-xs">
+                    <div class="min-w-0 flex-1">
+                        <div class="font-bold text-white truncate">${escapeHTML(s.productName)}</div>
+                        <div class="text-[11px] text-emerald-300">${s.qty} cup × ${formatRupiah(s.price)} • ${s.time || ''}</div>
+                    </div>
+                    <div class="flex items-center gap-2 shrink-0">
+                        <span class="font-extrabold text-[#f3e5ab]">${formatRupiah(s.total)}</span>
+                        <button onclick="window.deleteSaleTransaction('${s.id}')" class="text-red-300 hover:text-red-200 p-1" title="Batalkan Input">
+                            <i class="fas fa-times-circle"></i>
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+
+            return `
+                <div class="max-w-7xl mx-auto w-full p-4 sm:p-6 space-y-5 fade-in">
+                    <!-- TOP CONTROL BAR: OUTLET, DATE INPUT, SEARCH, ADD PRODUCT -->
+                    <div class="glass-panel rounded-2xl p-4 sm:p-5 border border-[#d4af37]/40">
+                        <div class="grid grid-cols-1 md:grid-cols-12 gap-3 items-end">
+                            <div class="md:col-span-4">
+                                <label class="block text-[11px] font-extrabold uppercase tracking-wider text-[#d4af37] mb-1">
+                                    <i class="fas fa-store mr-1"></i> Outlet Aktif
+                                </label>
+                                ${state.role === 'owner' ? `
+                                    <select onchange="window.changeActiveOutlet(this.value)" class="w-full glass-input rounded-xl px-3.5 py-2.5 text-sm font-bold text-[#f3e5ab]">
+                                        ${OUTLETS.map(o => `<option value="${o.id}" ${o.id === state.activeOutletId ? 'selected' : ''}>${o.label}</option>`).join('')}
+                                    </select>
+                                ` : `
+                                    <div class="flex items-center justify-between glass-input rounded-xl px-3.5 py-2.5">
+                                        <span class="text-sm font-extrabold text-[#f3e5ab]">${activeOutlet.label}</span>
+                                        <button onclick="window.reopenOutletPicker()" class="text-[11px] font-bold text-emerald-300 underline">Ganti</button>
+                                    </div>
+                                `}
+                            </div>
+
+                            <div class="md:col-span-4">
+                                <label class="block text-[11px] font-extrabold uppercase tracking-wider text-[#d4af37] mb-1">
+                                    <i class="fas fa-calendar-day mr-1"></i> Tanggal Input Penjualan
+                                </label>
+                                <input type="date" value="${state.inputDate}" onchange="window.handleInputDateChange(this.value)"
+                                    class="w-full glass-input rounded-xl px-3.5 py-2.5 text-sm font-bold text-white">
+                            </div>
+
+                            <div class="md:col-span-4 flex items-center gap-2">
+                                <button onclick="window.openAddProductModal()" class="w-full btn-gold py-2.5 px-4 rounded-xl text-xs sm:text-sm font-extrabold flex items-center justify-center gap-2 shadow-md">
+                                    <i class="fas fa-plus-circle"></i> Tambah Produk Baru
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="mt-3 pt-3 border-t border-[#d4af37]/20 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                            <div class="text-xs text-emerald-200 font-semibold">
+                                <i class="fas fa-calendar-check text-[#d4af37] mr-1.5"></i>
+                                Mencatat untuk: <strong class="text-white">${formatFullDateID(state.inputDate)}</strong>
+                            </div>
+                            <div class="relative w-full sm:w-80">
+                                <i class="fas fa-search absolute left-3.5 top-1/2 -translate-y-1/2 text-[#d4af37] text-xs"></i>
+                                <input id="product-search-input" type="text" value="${escapeHTML(state.searchQuery)}"
+                                    oninput="window.handleSearchInput(this.value)"
+                                    placeholder="Cari nama produk teh..."
+                                    class="w-full glass-input rounded-xl pl-9 pr-8 py-2 text-xs font-semibold">
+                                ${state.searchQuery ? `
+                                    <button onclick="window.handleSearchInput('')" class="absolute right-2.5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white text-xs">
+                                        <i class="fas fa-times"></i>
+                                    </button>
+                                ` : ''}
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- MAIN 2-COLUMN WORKSPACE: PRODUCT GRID & LIVE DAILY RECAP -->
+                    <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 items-start">
+                        <div class="lg:col-span-7 xl:col-span-8">
+                            <div class="flex items-center justify-between mb-3">
+                                <h3 class="text-sm font-extrabold uppercase tracking-wider text-[#f3e5ab]">
+                                    <i class="fas fa-mug-hot text-[#d4af37] mr-1.5"></i> Daftar Menu Teh (${filteredProducts.length})
+                                </h3>
+                                <span class="text-[11px] text-emerald-200">Klik <strong>+ 1 Cup</strong> atau <strong>Jumlah</strong> (langsung masuk DB)</span>
+                            </div>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-3.5">
+                                ${productCards}
+                            </div>
+                        </div>
+
+                        <div class="lg:col-span-5 xl:col-span-4 glass-panel gold-watermark-card rounded-2xl p-5 border-2 border-[#d4af37]/45 sticky top-24">
+                            <div class="border-b border-[#d4af37]/30 pb-3 mb-4 relative z-10">
+                                <span class="text-[10px] font-extrabold uppercase tracking-widest text-[#d4af37]">Rekap Hasil Akhir Harian</span>
+                                <h3 class="text-base font-extrabold text-white">${activeOutlet.label}</h3>
+                                <p class="text-xs text-emerald-200">${formatFullDateID(state.inputDate)}</p>
+                            </div>
+
+                            <div class="grid grid-cols-2 gap-3 mb-4 relative z-10">
+                                <div class="bg-emerald-950/90 border border-[#d4af37]/35 rounded-xl p-3">
+                                    <div class="text-[11px] text-emerald-200 font-semibold">Total Unit Terjual</div>
+                                    <div class="text-xl font-extrabold text-white mt-0.5">${totalUnits} <span class="text-xs font-bold text-[#d4af37]">Cup</span></div>
+                                </div>
+                                <div class="bg-emerald-950/90 border border-[#d4af37]/35 rounded-xl p-3">
+                                    <div class="text-[11px] text-emerald-200 font-semibold">Total Pendapatan</div>
+                                    <div class="text-lg font-extrabold text-[#f3e5ab] mt-0.5">${formatRupiah(totalRevenue)}</div>
+                                </div>
+                            </div>
+
+                            <div class="mb-4 relative z-10">
+                                <h4 class="text-xs font-extrabold uppercase tracking-wider text-[#d4af37] mb-2">Rincian Per Produk</h4>
+                                ${productBreakdownList.length > 0 ? `
+                                    <div class="bg-emerald-950/75 border border-[#d4af37]/25 rounded-xl overflow-hidden">
+                                        <table class="w-full text-xs">
+                                            <thead class="bg-[#d4af37]/15 text-[#f3e5ab] font-bold">
+                                                <tr>
+                                                    <th class="text-left py-2 px-3">Produk</th>
+                                                    <th class="text-center py-2 px-2">Unit</th>
+                                                    <th class="text-right py-2 px-3">Total</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody class="divide-y divide-[#d4af37]/15">
+                                                ${productBreakdownList.map(item => `
+                                                    <tr>
+                                                        <td class="py-2 px-3 font-semibold text-white">${escapeHTML(item.name)}</td>
+                                                        <td class="py-2 px-2 text-center font-extrabold text-emerald-300">${item.qty}</td>
+                                                        <td class="py-2 px-3 text-right font-bold text-[#f3e5ab]">${formatRupiah(item.total)}</td>
+                                                    </tr>
+                                                `).join('')}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                ` : `
+                                    <div class="bg-emerald-950/60 border border-dashed border-[#d4af37]/30 rounded-xl p-4 text-center text-xs text-gray-300">
+                                        Belum ada penjualan di tanggal ini.
+                                    </div>
+                                `}
+                            </div>
+
+                            ${outletDateSales.length > 0 ? `
+                                <div class="mb-4 relative z-10">
+                                    <h4 class="text-xs font-extrabold uppercase tracking-wider text-emerald-300 mb-2">
+                                        <i class="fas fa-receipt mr-1"></i> Riwayat Input Hari Ini (${state.inputDate})
+                                    </h4>
+                                    <div class="space-y-1.5 max-h-36 overflow-y-auto pr-1">
+                                        ${recentLogs}
+                                    </div>
+                                </div>
+                            ` : ''}
+
+                            ${confirmedRecap ? `
+                                <div class="mb-3 bg-emerald-900/70 border border-emerald-400/50 rounded-xl p-3 text-xs relative z-10">
+                                    <div class="flex items-center justify-between font-extrabold text-emerald-300 mb-1">
+                                        <span><i class="fas fa-circle-check mr-1"></i> Rekap Terkonfirmasi di DB</span>
+                                        <span>${confirmedRecap.confirmedUnits} Cup</span>
+                                    </div>
+                                    <p class="text-white font-bold">Pendapatan: ${formatRupiah(confirmedRecap.confirmedRevenue)} • Kas: ${formatRupiah(confirmedRecap.actualCash)}</p>
+                                    ${confirmedRecap.note ? `<p class="text-[11px] text-amber-200 mt-0.5 italic">"${escapeHTML(confirmedRecap.note)}"</p>` : ''}
+                                </div>
+                            ` : ''}
+
+                            <div class="pt-2 border-t border-[#d4af37]/30 relative z-10">
+                                <button onclick="window.openDailyRecapModal('${activeOutlet.id}', '${state.inputDate}')" class="w-full btn-gold py-3 rounded-xl text-xs font-extrabold flex items-center justify-center gap-2 shadow-lg">
+                                    <i class="fas fa-database text-sm"></i> ${confirmedRecap ? 'Perbarui Rekap Harian di Database' : 'Konfirmasi & Simpan Rekap ke Database'}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderOwnerMultiOutletDashboard() {
+            const filteredSales = state.sales.filter(s => {
+                if (state.reportFilterMode === 'date') return s.date === state.reportDate;
+                if (state.reportFilterMode === 'month') return (s.month || (s.date || '').slice(0, 7)) === state.reportMonth;
+                return true;
+            });
+
+            const grandTotalUnits = filteredSales.reduce((acc, s) => acc + Number(s.qty), 0);
+            const grandTotalRevenue = filteredSales.reduce((acc, s) => acc + Number(s.total), 0);
+
+            const periodLabel = state.reportFilterMode === 'date'
+                ? formatFullDateID(state.reportDate)
+                : state.reportFilterMode === 'month'
+                    ? `Bulan ${formatMonthID(state.reportMonth)}`
+                    : 'Semua Periode Tersimpan';
+
+            const outletCardsHTML = OUTLETS.map(outlet => {
+                const oSales = filteredSales.filter(s => s.outletId === outlet.id);
+                const oUnits = oSales.reduce((acc, s) => acc + Number(s.qty), 0);
+                const oRev = oSales.reduce((acc, s) => acc + Number(s.total), 0);
+                const confirmedRecap = state.reportFilterMode === 'date'
+                    ? state.recaps.find(r => r.id === `recap_${outlet.id}_${state.reportDate}`)
+                    : null;
+
+                const prodMap = {};
+                oSales.forEach(s => {
+                    if (!prodMap[s.productName]) prodMap[s.productName] = { name: s.productName, qty: 0, total: 0 };
+                    prodMap[s.productName].qty += Number(s.qty);
+                    prodMap[s.productName].total += Number(s.total);
+                });
+                const prodRows = Object.values(prodMap).sort((a, b) => b.qty - a.qty);
+
+                return `
+                    <div class="glass-panel gold-watermark-card rounded-2xl p-5 border border-[#d4af37]/40 flex flex-col justify-between">
+                        <div class="relative z-10">
+                            <div class="flex items-start justify-between gap-2 border-b border-[#d4af37]/25 pb-3 mb-3">
+                                <div>
+                                    <span class="text-[10px] font-extrabold uppercase tracking-wider text-[#d4af37]">Outlet #${outlet.number}</span>
+                                    <h3 class="text-base font-extrabold text-white">${outlet.label}</h3>
+                                    <p class="text-[11px] text-emerald-200/80">${outlet.area}</p>
+                                </div>
+                                <div class="w-10 h-10 rounded-xl bg-[#d4af37]/20 border border-[#d4af37]/40 flex items-center justify-center text-[#f3e5ab]">
+                                    <i class="fas ${outlet.icon}"></i>
+                                </div>
+                            </div>
+
+                            <div class="grid grid-cols-2 gap-2.5 mb-3">
+                                <div class="bg-emerald-950/90 border border-[#d4af37]/25 rounded-xl p-2.5">
+                                    <div class="text-[10px] text-gray-300">Unit Terjual</div>
+                                    <div class="text-base font-extrabold text-white">${oUnits} <span class="text-xs text-[#d4af37]">Cup</span></div>
+                                </div>
+                                <div class="bg-emerald-950/90 border border-[#d4af37]/25 rounded-xl p-2.5">
+                                    <div class="text-[10px] text-gray-300">Total Uang</div>
+                                    <div class="text-sm font-extrabold text-[#f3e5ab]">${formatRupiah(oRev)}</div>
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <div class="text-[11px] font-bold text-[#d4af37] mb-1.5">Rincian Penjualan Produk:</div>
+                                ${prodRows.length > 0 ? `
+                                    <div class="bg-emerald-950/70 border border-[#d4af37]/20 rounded-xl overflow-hidden max-h-36 overflow-y-auto">
+                                        <table class="w-full text-[11px]">
+                                            <tbody class="divide-y divide-[#d4af37]/15">
+                                                ${prodRows.map(r => `
+                                                    <tr>
+                                                        <td class="py-1.5 px-2.5 text-white font-medium">${escapeHTML(r.name)}</td>
+                                                        <td class="py-1.5 px-2 text-center font-extrabold text-emerald-300">${r.qty}x</td>
+                                                        <td class="py-1.5 px-2.5 text-right font-bold text-[#f3e5ab]">${formatRupiah(r.total)}</td>
+                                                    </tr>
+                                                `).join('')}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                ` : `
+                                    <p class="text-[11px] text-gray-400 italic py-2">Belum ada transaksi tercatat pada periode ini.</p>
+                                `}
+                            </div>
+                        </div>
+
+                        <div class="pt-2 border-t border-[#d4af37]/20 flex flex-col gap-2 relative z-10">
+                            ${confirmedRecap ? `
+                                <div class="bg-emerald-900/70 border border-emerald-400/40 rounded-lg px-2.5 py-1.5 text-[11px] flex items-center justify-between text-emerald-200">
+                                    <span class="font-bold"><i class="fas fa-check-circle mr-1"></i>Rekap DB: ${confirmedRecap.confirmedUnits} Cup</span>
+                                    <span class="font-extrabold text-white">${formatRupiah(confirmedRecap.confirmedRevenue)}</span>
+                                </div>
+                            ` : ''}
+                            <div class="flex items-center gap-2">
+                                <button onclick="window.jumpToOutletKasir('${outlet.id}')" class="flex-1 py-2 rounded-xl bg-white/10 hover:bg-white/20 text-xs font-bold text-white flex items-center justify-center gap-1.5">
+                                    <i class="fas fa-cash-register text-[#d4af37]"></i> Input Kasir
+                                </button>
+                                ${state.reportFilterMode === 'date' ? `
+                                    <button onclick="window.openDailyRecapModal('${outlet.id}', '${state.reportDate}')" class="px-3 py-2 rounded-xl btn-gold text-xs font-extrabold flex items-center gap-1" title="Lihat / Konfirmasi Rekap Harian di Database">
+                                        <i class="fas fa-database"></i> Rekap DB
+                                    </button>
+                                ` : ''}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            return `
+                <div class="max-w-7xl mx-auto w-full p-4 sm:p-6 space-y-5 fade-in">
+                    <div class="glass-panel rounded-2xl p-5 border border-[#d4af37]/40">
+                        <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+                            <div>
+                                <span class="text-[11px] font-extrabold uppercase tracking-widest text-[#d4af37]">Dashboard Rekapitulasi Owner</span>
+                                <h2 class="text-xl sm:text-2xl font-extrabold text-white">Rekap Penjualan 6 Outlet Juragan Teh</h2>
+                                <p class="text-xs text-emerald-200 mt-0.5">Periode Aktif: <strong class="text-[#f3e5ab]">${periodLabel}</strong></p>
+                            </div>
+
+                            <div class="flex flex-wrap items-center gap-2">
+                                <div class="inline-flex rounded-xl bg-emerald-950/90 p-1 border border-[#d4af37]/35">
+                                    <button onclick="window.setReportFilterMode('date')" class="px-3 py-1.5 rounded-lg text-xs font-extrabold ${state.reportFilterMode === 'date' ? 'btn-gold' : 'text-gray-300 hover:text-white'}">
+                                        Per Tanggal
+                                    </button>
+                                    <button onclick="window.setReportFilterMode('month')" class="px-3 py-1.5 rounded-lg text-xs font-extrabold ${state.reportFilterMode === 'month' ? 'btn-gold' : 'text-gray-300 hover:text-white'}">
+                                        Per Bulan
+                                    </button>
+                                    <button onclick="window.setReportFilterMode('all')" class="px-3 py-1.5 rounded-lg text-xs font-extrabold ${state.reportFilterMode === 'all' ? 'btn-gold' : 'text-gray-300 hover:text-white'}">
+                                        Semua
+                                    </button>
+                                </div>
+
+                                ${state.reportFilterMode === 'date' ? `
+                                    <input type="date" value="${state.reportDate}" onchange="window.setReportDate(this.value)"
+                                        class="glass-input rounded-xl px-3 py-2 text-xs font-bold text-white">
+                                ` : state.reportFilterMode === 'month' ? `
+                                    <input type="month" value="${state.reportMonth}" onchange="window.setReportMonth(this.value)"
+                                        class="glass-input rounded-xl px-3 py-2 text-xs font-bold text-white">
+                                ` : ''}
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3.5 mt-5 pt-4 border-t border-[#d4af37]/25">
+                            <div class="bg-emerald-950/90 border border-[#d4af37]/35 rounded-2xl p-4">
+                                <div class="text-xs text-emerald-200 font-semibold">Total Unit Terjual (6 Outlet)</div>
+                                <div class="text-2xl font-extrabold text-white mt-1">${grandTotalUnits} <span class="text-sm text-[#d4af37]">Cup</span></div>
+                            </div>
+                            <div class="bg-emerald-950/90 border border-[#d4af37]/35 rounded-2xl p-4">
+                                <div class="text-xs text-emerald-200 font-semibold">Total Pendapatan (6 Outlet)</div>
+                                <div class="text-2xl font-extrabold text-[#f3e5ab] mt-1">${formatRupiah(grandTotalRevenue)}</div>
+                            </div>
+                            <div class="bg-emerald-950/90 border border-[#d4af37]/35 rounded-2xl p-4">
+                                <div class="text-xs text-emerald-200 font-semibold">Jumlah Transaksi Input</div>
+                                <div class="text-2xl font-extrabold text-emerald-300 mt-1">${filteredSales.length} <span class="text-sm text-gray-300">Nota</span></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                        ${outletCardsHTML}
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderOwnerDetailRecapTab() {
+            const activeOutlet = OUTLETS.find(o => o.id === state.detailOutletId) || OUTLETS[0];
+            const targetDate = state.detailDate || getTodayStr();
+            const outletSales = state.sales.filter(s => s.outletId === activeOutlet.id && s.date === targetDate);
+            const totalUnits = outletSales.reduce((acc, s) => acc + Number(s.qty), 0);
+            const totalRevenue = outletSales.reduce((acc, s) => acc + Number(s.total), 0);
+            const avgPerCup = totalUnits > 0 ? Math.round(totalRevenue / totalUnits) : 0;
+            const confirmedRecap = state.recaps.find(r => r.id === `recap_${activeOutlet.id}_${targetDate}`);
+
+            const prodMap = {};
+            outletSales.forEach(s => {
+                if (!prodMap[s.productName]) {
+                    prodMap[s.productName] = { name: s.productName, price: Number(s.price), qty: 0, total: 0 };
+                }
+                prodMap[s.productName].qty += Number(s.qty);
+                prodMap[s.productName].total += Number(s.total);
+            });
+            const breakdown = Object.values(prodMap).sort((a, b) => b.total - a.total);
+
+            return `
+                <div class="max-w-7xl mx-auto w-full p-4 sm:p-6 space-y-5 fade-in">
+                    <div class="glass-panel rounded-2xl p-5 border border-[#d4af37]/40">
+                        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-4">
+                            <div>
+                                <span class="text-[11px] font-extrabold uppercase tracking-widest text-[#d4af37]">Analisis Spesifik Cabang</span>
+                                <h2 class="text-xl font-extrabold text-white">Rekap Per-Outlet & Tanggal</h2>
+                            </div>
+                            <div class="flex flex-wrap items-center gap-2">
+                                <button onclick="window.setDetailDate('${getTodayStr()}')" class="px-3 py-2 rounded-xl bg-white/10 hover:bg-white/20 text-xs font-bold ${targetDate === getTodayStr() ? 'border border-[#d4af37] text-[#f3e5ab]' : 'text-gray-200'}">
+                                    Hari Ini
+                                </button>
+                                <button onclick="window.setDetailDate('${getYesterdayStr()}')" class="px-3 py-2 rounded-xl bg-white/10 hover:bg-white/20 text-xs font-bold ${targetDate === getYesterdayStr() ? 'border border-[#d4af37] text-[#f3e5ab]' : 'text-gray-200'}">
+                                    Kemarin
+                                </button>
+                                <input type="date" value="${targetDate}" onchange="window.setDetailDate(this.value)"
+                                    class="glass-input rounded-xl px-3.5 py-2 text-xs font-bold text-white">
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2">
+                            ${OUTLETS.map(o => {
+                                const oCount = state.sales
+                                    .filter(s => s.outletId === o.id && s.date === targetDate)
+                                    .reduce((acc, s) => acc + Number(s.qty), 0);
+                                const isSel = o.id === activeOutlet.id;
+                                return `
+                                    <button onclick="window.setDetailOutlet('${o.id}')" class="p-3 rounded-xl text-left transition-all border ${isSel ? 'btn-gold border-white' : 'bg-emerald-950/80 hover:bg-emerald-900 border-[#d4af37]/30 text-white'}">
+                                        <div class="text-[10px] font-extrabold uppercase opacity-80">Outlet #${o.number}</div>
+                                        <div class="text-xs font-extrabold truncate mt-0.5">${o.shortName}</div>
+                                        <div class="text-[11px] font-bold mt-1 ${isSel ? 'text-emerald-950' : 'text-emerald-300'}">${oCount} Cup</div>
+                                    </button>
+                                `;
+                            }).join('')}
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 lg:grid-cols-4 gap-3.5">
+                        <div class="glass-panel rounded-2xl p-4 border border-[#d4af37]/35">
+                            <div class="text-xs text-emerald-200">Total Unit (${activeOutlet.shortName})</div>
+                            <div class="text-2xl font-extrabold text-white mt-1">${totalUnits} <span class="text-xs text-[#d4af37]">Cup</span></div>
+                        </div>
+                        <div class="glass-panel rounded-2xl p-4 border border-[#d4af37]/35">
+                            <div class="text-xs text-emerald-200">Total Omzet</div>
+                            <div class="text-xl font-extrabold text-[#f3e5ab] mt-1">${formatRupiah(totalRevenue)}</div>
+                        </div>
+                        <div class="glass-panel rounded-2xl p-4 border border-[#d4af37]/35">
+                            <div class="text-xs text-emerald-200">Rata-rata / Cup</div>
+                            <div class="text-xl font-extrabold text-emerald-300 mt-1">${formatRupiah(avgPerCup)}</div>
+                        </div>
+                        <div class="glass-panel rounded-2xl p-4 border border-[#d4af37]/35">
+                            <div class="text-xs text-emerald-200">Jumlah Input Kasir</div>
+                            <div class="text-2xl font-extrabold text-white mt-1">${outletSales.length} <span class="text-xs text-gray-300">Kali</span></div>
+                        </div>
+                    </div>
+
+                    <div class="glass-panel rounded-2xl p-5 border border-[#d4af37]/40">
+                        <div class="flex flex-wrap items-center justify-between gap-2 mb-4">
+                            <div>
+                                <h3 class="text-sm font-extrabold text-[#f3e5ab] uppercase tracking-wider flex items-center gap-2">
+                                    <i class="fas fa-table-list text-[#d4af37]"></i> Kontribusi Penjualan Menu — ${activeOutlet.label}
+                                </h3>
+                                <p class="text-xs text-emerald-200 mt-0.5">${formatFullDateID(targetDate)}</p>
+                            </div>
+                            <button onclick="window.openDailyRecapModal('${activeOutlet.id}', '${targetDate}')" class="btn-gold px-3.5 py-2 rounded-xl text-xs font-extrabold flex items-center gap-1.5 shadow">
+                                <i class="fas fa-database"></i> ${confirmedRecap ? 'Rekap DB Terkonfirmasi (' + confirmedRecap.confirmedUnits + ' Cup)' : 'Konfirmasi Rekap Harian DB'}
+                            </button>
+                        </div>
+
+                        ${confirmedRecap ? `
+                            <div class="mb-4 bg-emerald-950/90 border border-emerald-400/40 rounded-xl p-3.5 flex flex-wrap items-center justify-between gap-2 text-xs">
+                                <span class="font-extrabold text-emerald-300"><i class="fas fa-circle-check mr-1.5"></i>Status Rekap Harian Terkunci di Database</span>
+                                <span class="text-white font-bold">Unit: ${confirmedRecap.confirmedUnits} Cup • Pendapatan: ${formatRupiah(confirmedRecap.confirmedRevenue)} • Kas Fisik: ${formatRupiah(confirmedRecap.actualCash)}</span>
+                            </div>
+                        ` : ''}
+
+                        ${breakdown.length > 0 ? `
+                            <div class="overflow-x-auto rounded-xl border border-[#d4af37]/25">
+                                <table class="w-full text-xs">
+                                    <thead class="bg-emerald-950 text-[#f3e5ab] font-extrabold uppercase">
+                                        <tr>
+                                            <th class="text-left py-3 px-4">Nama Produk</th>
+                                            <th class="text-right py-3 px-3">Harga Satuan</th>
+                                            <th class="text-center py-3 px-3">Unit Terjual</th>
+                                            <th class="text-right py-3 px-3">Total Omzet</th>
+                                            <th class="text-right py-3 px-4">Kontribusi</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="divide-y divide-[#d4af37]/15 bg-emerald-950/50">
+                                        ${breakdown.map(row => {
+                                            const pct = totalRevenue > 0 ? ((row.total / totalRevenue) * 100).toFixed(1) : '0.0';
+                                            return `
+                                                <tr>
+                                                    <td class="py-3 px-4 font-bold text-white">${escapeHTML(row.name)}</td>
+                                                    <td class="py-3 px-3 text-right text-gray-300">${formatRupiah(row.price)}</td>
+                                                    <td class="py-3 px-3 text-center font-extrabold text-emerald-300">${row.qty} Cup</td>
+                                                    <td class="py-3 px-3 text-right font-extrabold text-[#f3e5ab]">${formatRupiah(row.total)}</td>
+                                                    <td class="py-3 px-4 text-right font-bold text-amber-200">${pct}%</td>
+                                                </tr>
+                                            `;
+                                        }).join('')}
+                                    </tbody>
+                                </table>
+                            </div>
+                        ` : `
+                            <div class="bg-emerald-950/60 border border-dashed border-[#d4af37]/30 rounded-xl p-8 text-center text-xs text-gray-300">
+                                Tidak ada data penjualan pada <strong>${activeOutlet.label}</strong> tanggal <strong>${formatFullDateID(targetDate)}</strong>.
+                            </div>
+                        `}
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderOwnerHistoryTab() {
+            const list = state.sales.filter(s =>
+                state.historyOutletFilter === 'ALL' ? true : s.outletId === state.historyOutletFilter
+            );
+
+            return `
+                <div class="max-w-7xl mx-auto w-full p-4 sm:p-6 space-y-5 fade-in">
+                    <div class="glass-panel rounded-2xl p-5 border border-[#d4af37]/40">
+                        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
+                            <div>
+                                <span class="text-[11px] font-extrabold uppercase tracking-widest text-[#d4af37]">Log Database Real-Time</span>
+                                <h2 class="text-xl font-extrabold text-white">Seluruh Riwayat Transaksi (${list.length})</h2>
+                            </div>
+                            <select onchange="window.setHistoryOutletFilter(this.value)" class="glass-input rounded-xl px-3.5 py-2 text-xs font-bold text-[#f3e5ab]">
+                                <option value="ALL" ${state.historyOutletFilter === 'ALL' ? 'selected' : ''}>Semua 6 Outlet</option>
+                                ${OUTLETS.map(o => `<option value="${o.id}" ${state.historyOutletFilter === o.id ? 'selected' : ''}>${o.label}</option>`).join('')}
+                            </select>
+                        </div>
+
+                        ${list.length > 0 ? `
+                            <div class="overflow-x-auto rounded-xl border border-[#d4af37]/25">
+                                <table class="w-full text-xs">
+                                    <thead class="bg-emerald-950 text-[#f3e5ab] font-extrabold uppercase">
+                                        <tr>
+                                            <th class="text-left py-3 px-4">Tanggal & Jam</th>
+                                            <th class="text-left py-3 px-3">Outlet</th>
+                                            <th class="text-left py-3 px-3">Produk</th>
+                                            <th class="text-center py-3 px-2">Unit</th>
+                                            <th class="text-right py-3 px-3">Total</th>
+                                            <th class="text-center py-3 px-3">Aksi</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="divide-y divide-[#d4af37]/15 bg-emerald-950/50">
+                                        ${list.slice(0, 150).map(s => `
+                                            <tr>
+                                                <td class="py-2.5 px-4 text-gray-200 whitespace-nowrap">${s.date} <span class="text-emerald-300">${s.time || ''}</span></td>
+                                                <td class="py-2.5 px-3 font-bold text-[#f3e5ab] whitespace-nowrap">${escapeHTML(s.outletLabel || s.outletId)}</td>
+                                                <td class="py-2.5 px-3 font-semibold text-white">${escapeHTML(s.productName)}</td>
+                                                <td class="py-2.5 px-2 text-center font-extrabold text-emerald-300">${s.qty}</td>
+                                                <td class="py-2.5 px-3 text-right font-extrabold text-[#f3e5ab] whitespace-nowrap">${formatRupiah(s.total)}</td>
+                                                <td class="py-2.5 px-3 text-center">
+                                                    <button onclick="window.deleteSaleTransaction('${s.id}')" class="text-red-300 hover:text-red-200 p-1" title="Hapus Transaksi">
+                                                        <i class="fas fa-trash-can"></i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        `).join('')}
+                                    </tbody>
+                                </table>
+                            </div>
+                        ` : `
+                            <div class="bg-emerald-950/60 border border-dashed border-[#d4af37]/30 rounded-xl p-8 text-center text-xs text-gray-300">
+                                Belum ada riwayat transaksi yang tersimpan di database.
+                            </div>
+                        `}
+                    </div>
+                </div>
+            `;
+        }
+
+        // =========================================================================
+        // 12. MASTER RENDER LOOP
+        // =========================================================================
+        function render() {
+            const appEl = document.getElementById('app');
+            if (!appEl) return;
+
+            if (!state.role) {
+                appEl.innerHTML = renderLoginScreen();
+                return;
+            }
+
+            if (state.role === 'worker' && state.showOutletSelector) {
+                appEl.innerHTML = renderWorkerOutletSelector();
+                return;
+            }
+
+            let mainContent = '';
+            if (state.role === 'worker') {
+                mainContent = renderKasirAndProductsView();
+            } else if (state.role === 'owner') {
+                if (state.ownerTab === 'rekap_outlet') {
+                    mainContent = renderOwnerMultiOutletDashboard();
+                } else if (state.ownerTab === 'rekap_detail') {
+                    mainContent = renderOwnerDetailRecapTab();
+                } else if (state.ownerTab === 'kasir') {
+                    mainContent = renderKasirAndProductsView();
+                } else if (state.ownerTab === 'riwayat') {
+                    mainContent = renderOwnerHistoryTab();
+                } else {
+                    mainContent = renderOwnerMultiOutletDashboard();
+                }
+            }
+
+            appEl.innerHTML = `
+                ${renderNavbar()}
+                <main class="flex-1 pb-10">
+                    ${mainContent}
+                </main>
+            `;
+        }
+
+        // Start App
+        render();
+        initFirebaseCloud();
+    </script>
+</body>
+</html>
